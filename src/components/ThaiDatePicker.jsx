@@ -43,12 +43,12 @@ export default function ThaiDatePicker({ value, onChange, className, required })
   const years = Array.from({ length: 131 }, (_, i) => currentYearBE + 10 - i);
 
   return (
-    <div className={`grid grid-cols-12 gap-1 sm:gap-2 w-full ${className || ''}`}>
+    <div className={`flex w-full gap-1 sm:gap-2 ${className || ''}`}>
       <select 
         value={day} 
         required={required}
         onChange={e => handleChange(e.target.value, month, year)} 
-        className="col-span-3 w-full min-w-0 rounded-xl border-border-medium bg-background px-1 sm:px-3 py-2 shadow-sm text-sm sm:text-base focus:border-brand-fuchsia focus:ring-1 focus:ring-brand-fuchsia"
+        className="flex-[2] w-full min-w-0 rounded-xl border-border-medium bg-background px-1 sm:px-3 py-2 shadow-sm text-sm sm:text-base focus:border-brand-fuchsia focus:ring-1 focus:ring-brand-fuchsia"
       >
         <option value="">วัน</option>
         {Array.from({ length: 31 }, (_, i) => i + 1).map(d => (
@@ -60,7 +60,7 @@ export default function ThaiDatePicker({ value, onChange, className, required })
         value={month} 
         required={required}
         onChange={e => handleChange(day, e.target.value, year)} 
-        className="col-span-5 w-full min-w-0 rounded-xl border-border-medium bg-background px-1 sm:px-3 py-2 shadow-sm text-[13px] sm:text-base focus:border-brand-fuchsia focus:ring-1 focus:ring-brand-fuchsia"
+        className="flex-[3] w-full min-w-0 rounded-xl border-border-medium bg-background px-1 sm:px-3 py-2 shadow-sm text-[13px] sm:text-base focus:border-brand-fuchsia focus:ring-1 focus:ring-brand-fuchsia"
       >
         <option value="">เดือน</option>
         {MONTHS.map((m, i) => (
@@ -72,7 +72,7 @@ export default function ThaiDatePicker({ value, onChange, className, required })
         value={year} 
         required={required}
         onChange={e => handleChange(day, month, e.target.value)} 
-        className="col-span-4 w-full min-w-0 rounded-xl border-border-medium bg-background px-1 sm:px-3 py-2 shadow-sm text-sm sm:text-base focus:border-brand-fuchsia focus:ring-1 focus:ring-brand-fuchsia"
+        className="flex-[2] w-full min-w-0 rounded-xl border-border-medium bg-background px-1 sm:px-3 py-2 shadow-sm text-sm sm:text-base focus:border-brand-fuchsia focus:ring-1 focus:ring-brand-fuchsia"
       >
         <option value="">พ.ศ.</option>
         {years.map(y => (

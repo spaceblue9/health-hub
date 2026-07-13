@@ -3,15 +3,16 @@ import { createContext, useState, useEffect, useContext } from 'react';
 const FontSizeContext = createContext();
 
 export const FONT_SIZES = [
-  { level: 1, label: 'ปกติ', size: '16px' },
-  { level: 2, label: 'ใหญ่', size: '18px' },
-  { level: 3, label: 'ใหญ่พิเศษ', size: '20px' }
+  { level: 1, label: 'เล็ก', size: '14px' },
+  { level: 2, label: 'ปกติ', size: '16px' },
+  { level: 3, label: 'ใหญ่', size: '18px' },
+  { level: 4, label: 'ใหญ่พิเศษ', size: '20px' }
 ];
 
 export function FontSizeProvider({ children }) {
   const [fontLevel, setFontLevel] = useState(() => {
     const saved = localStorage.getItem('health_hub_font_level');
-    return saved ? parseInt(saved) : 1;
+    return saved ? parseInt(saved) : 2;
   });
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export function FontSizeProvider({ children }) {
   };
 
   const resetFontSize = () => {
-    setFontLevel(1);
+    setFontLevel(2);
   };
 
   return (
