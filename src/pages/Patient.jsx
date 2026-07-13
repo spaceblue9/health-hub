@@ -423,11 +423,11 @@ export default function Patient({ session }) {
   if (loading) return <div className="p-8 text-center text-text-muted">กำลังโหลดข้อมูล...</div>;
 
   return (
-    <div className="p-md md:p-xl space-y-xl max-w-5xl mx-auto">
+    <div className="px-3 py-6 md:p-xl space-y-xl max-w-5xl mx-auto w-full overflow-x-hidden">
       
       {/* Header & Back Button */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-md mb-lg border-b border-border-light pb-lg">
-        <div>
+        <div className="w-full min-w-0">
           <button onClick={() => navigate('/')} className="text-text-muted hover:text-primary flex items-center gap-xs font-body-sm text-body-sm transition-colors mb-sm">
             <span className="material-symbols-outlined text-[16px]">arrow_back</span>
             กลับสู่ Dashboard
@@ -707,9 +707,9 @@ export default function Patient({ session }) {
       )}
 
       {/* Timeline Section */}
-      <div className="bg-surface rounded-[24px] border border-border-light p-md md:p-xl shadow-sm mt-lg">
+      <div className="bg-surface rounded-2xl md:rounded-[24px] border border-border-light p-3 md:p-xl shadow-sm mt-lg w-full overflow-hidden">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-md mb-lg">
-          <h2 className="font-subhead text-subhead font-bold text-on-background flex items-center gap-sm">
+          <h2 className="font-subhead text-[18px] sm:text-subhead font-bold text-on-background flex items-center gap-sm">
             <span className="material-symbols-outlined text-primary">timeline</span> ประวัติสุขภาพ (Timeline)
           </h2>
           
@@ -779,12 +779,12 @@ export default function Patient({ session }) {
                   </div>
                   
                   {/* Event Content Card */}
-                  <div className="flex-1 border border-border-light rounded-2xl shadow-sm hover:shadow-md transition-shadow overflow-hidden" style={{ backgroundColor: event.card_color || '#fef7ff' }}>
+                  <div className="flex-1 min-w-0 border border-border-light rounded-2xl shadow-sm hover:shadow-md transition-shadow overflow-hidden" style={{ backgroundColor: event.card_color || '#fef7ff' }}>
                     {/* Big Date Header */}
-                    <div className="px-md py-3 border-b border-border-light/50 flex flex-col sm:flex-row justify-between sm:items-center gap-2" style={{ backgroundColor: 'rgba(0,0,0,0.03)' }}>
-                      <h3 className="font-headline text-lg font-bold flex items-center gap-xs" style={{ color: event.text_color || '#832890' }}>
-                        <span className="material-symbols-outlined">{event.icon || 'calendar_today'}</span>
-                        {formatThaiDateFull(event.event_date)}
+                    <div className="px-3 md:px-md py-3 border-b border-border-light/50 flex flex-col sm:flex-row justify-between sm:items-center gap-2" style={{ backgroundColor: 'rgba(0,0,0,0.03)' }}>
+                      <h3 className="font-headline text-[15px] sm:text-lg font-bold flex items-start sm:items-center gap-xs leading-snug" style={{ color: event.text_color || '#832890' }}>
+                        <span className="material-symbols-outlined shrink-0">{event.icon || 'calendar_today'}</span>
+                        <span className="break-words">{formatThaiDateFull(event.event_date)}</span>
                       </h3>
                       {editingEventId !== event.id && (
                         <div className="flex gap-2 no-print">
