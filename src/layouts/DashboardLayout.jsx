@@ -158,17 +158,20 @@ export default function DashboardLayout({ session }) {
               <span className="material-symbols-outlined text-[14px]">format_size</span> ขนาดตัวอักษร
             </span>
             <div className="flex items-center justify-between gap-1 bg-surface-container-high rounded-full p-1">
-              <button onClick={() => setFontLevel(1)} className={`flex-1 flex items-center justify-center py-1.5 rounded-full transition-all ${fontLevel === 1 ? 'bg-surface shadow-sm text-primary font-bold scale-105' : 'text-text-muted hover:text-on-surface'}`} title="ขนาดเล็ก">
-                <span className="text-[10px]">A</span>
+              <button onClick={() => setFontLevel(1)} className={`flex-1 flex items-center justify-center py-1.5 rounded-full transition-all ${fontLevel === 1 ? 'bg-surface shadow-sm text-primary font-bold scale-105' : 'text-text-muted hover:text-on-surface'}`} title="ขนาดเล็กมาก">
+                <span className="text-[9px]">A</span>
               </button>
-              <button onClick={() => setFontLevel(2)} className={`flex-1 flex items-center justify-center py-1.5 rounded-full transition-all ${fontLevel === 2 ? 'bg-surface shadow-sm text-primary font-bold scale-105' : 'text-text-muted hover:text-on-surface'}`} title="ขนาดปกติ">
-                <span className="text-xs">A</span>
+              <button onClick={() => setFontLevel(2)} className={`flex-1 flex items-center justify-center py-1.5 rounded-full transition-all ${fontLevel === 2 ? 'bg-surface shadow-sm text-primary font-bold scale-105' : 'text-text-muted hover:text-on-surface'}`} title="ขนาดเล็ก">
+                <span className="text-[11px]">A</span>
               </button>
-              <button onClick={() => setFontLevel(3)} className={`flex-1 flex items-center justify-center py-1.5 rounded-full transition-all ${fontLevel === 3 ? 'bg-surface shadow-sm text-primary font-bold scale-105' : 'text-text-muted hover:text-on-surface'}`} title="ขนาดใหญ่">
+              <button onClick={() => setFontLevel(3)} className={`flex-1 flex items-center justify-center py-1.5 rounded-full transition-all ${fontLevel === 3 ? 'bg-surface shadow-sm text-primary font-bold scale-105' : 'text-text-muted hover:text-on-surface'}`} title="ขนาดปกติ">
                 <span className="text-sm">A</span>
               </button>
-              <button onClick={() => setFontLevel(4)} className={`flex-1 flex items-center justify-center py-1.5 rounded-full transition-all ${fontLevel === 4 ? 'bg-surface shadow-sm text-primary font-bold scale-105' : 'text-text-muted hover:text-on-surface'}`} title="ขนาดใหญ่พิเศษ">
+              <button onClick={() => setFontLevel(4)} className={`flex-1 flex items-center justify-center py-1.5 rounded-full transition-all ${fontLevel === 4 ? 'bg-surface shadow-sm text-primary font-bold scale-105' : 'text-text-muted hover:text-on-surface'}`} title="ขนาดใหญ่">
                 <span className="text-base">A</span>
+              </button>
+              <button onClick={() => setFontLevel(5)} className={`flex-1 flex items-center justify-center py-1.5 rounded-full transition-all ${fontLevel === 5 ? 'bg-surface shadow-sm text-primary font-bold scale-105' : 'text-text-muted hover:text-on-surface'}`} title="ขนาดใหญ่พิเศษ">
+                <span className="text-lg">A</span>
               </button>
             </div>
           </div>
