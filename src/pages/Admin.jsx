@@ -38,6 +38,49 @@ export default function Admin() {
     }
   };
 
+  const handleDeleteUser = async (userToDelete) => {
+    if (!window.confirm(`คุณต้องการลบผู้ใช้ ${userToDelete.email} อย่างถาวรใช่หรือไม่?\n\nข้อมูลโปรไฟล์ผู้ป่วย การบันทึกไทม์ไลน์ และไฟล์แนบทั้งหมดจะถูกลบและไม่สามารถกู้คืนได้`)) return;
+    
+    if (userToDelete.id === profile.id) {
+       alert("ไม่สามารถลบบัญชีของตัวเองได้");
+       return;
+    }
+
+    try {
+      // 1. Fetch all storage files for this user via RPC (bypasses RLS)
+      const { data: fileUrls, error: fetchError } = await supabase.rpc('get_user_storage_files', { target_user_id: userToDelete.id });
+      
+      if (fetchError) {
+        console.error("Error fetching user files:", fetchError);
+        // We'll continue anyway to at least delete the user from DB
+      } else if (fileUrls && fileUrls.length > 0) {
+        // 2. Extract paths and delete from storage
+        const pathsToDelete = fileUrls
+           .filter(Boolean)
+           .map(url => {
+             const parts = url.split('medical_attachments/');
+             return parts.length > 1 ? parts[1] : null;
+           })
+           .filter(Boolean);
+           
+        if (pathsToDelete.length > 0) {
+           const { error: storageError } = await supabase.storage.from('medical_attachments').remove(pathsToDelete);
+           if (storageError) {
+             console.error("Error deleting from storage:", storageError);
+           }
+        }
+      }
+
+      // 3. Delete user via database function (cascades database rows)
+      const { error } = await supabase.rpc('delete_user', { user_id: userToDelete.id });
+      if (error) throw error;
+      
+      fetchProfiles();
+    } catch (error) {
+      alert('Error deleting user: ' + error.message);
+    }
+  };
+
   if (loading) return <div className="p-8 text-center text-text-muted">กำลังโหลดข้อมูล...</div>;
 
   return (
@@ -124,17 +167,20 @@ export default function Admin() {
                       จัดการผู้ดูแล
                     </label>
                   </td>
-                  <td className="px-6 py-4 text-right space-x-2">
+                  <td className="px-6 py-4 text-right space-x-2 whitespace-nowrap">
                     {p.status !== 'approved' && (
                       <button onClick={() => updateProfile(p.id, { status: 'approved' })} className="text-success hover:bg-green-50 p-2 rounded-full transition-colors" title="Approve">
                         <span className="material-symbols-outlined text-[20px]">check_circle</span>
                       </button>
                     )}
                     {p.status !== 'rejected' && (
-                      <button onClick={() => updateProfile(p.id, { status: 'rejected' })} className="text-error hover:bg-red-50 p-2 rounded-full transition-colors" title="Reject">
+                      <button onClick={() => updateProfile(p.id, { status: 'rejected' })} className="text-warning hover:bg-yellow-50 p-2 rounded-full transition-colors" title="Reject">
                         <span className="material-symbols-outlined text-[20px]">cancel</span>
                       </button>
                     )}
+                    <button onClick={() => handleDeleteUser(p)} className="text-error hover:bg-red-50 p-2 rounded-full transition-colors" title="Delete User">
+                      <span className="material-symbols-outlined text-[20px]">delete</span>
+                    </button>
                   </td>
                 </tr>
               ))}

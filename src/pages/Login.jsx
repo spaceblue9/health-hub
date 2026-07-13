@@ -1,7 +1,12 @@
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 
-export default function Login() {
+export default function Login({ session }) {
+  if (session) {
+    return <Navigate to="/" replace />;
+  }
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginMode, setLoginMode] = useState('magic-link'); // 'magic-link' or 'password'

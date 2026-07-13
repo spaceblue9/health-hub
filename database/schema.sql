@@ -61,7 +61,7 @@ CREATE TABLE share_links (
     patient_id UUID REFERENCES patients(id) ON DELETE CASCADE,
     token TEXT UNIQUE NOT NULL,
     expires_at TIMESTAMP WITH TIME ZONE NOT NULL,
-    created_by UUID REFERENCES profiles(id),
+    created_by UUID REFERENCES profiles(id) ON DELETE CASCADE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW())
 );
 

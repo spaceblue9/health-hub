@@ -38,6 +38,8 @@
    - `3.` รันไฟล์ `update_permissions.sql` (เพิ่มฟังก์ชันแชร์สิทธิ์)
    - `4.` รันไฟล์ `co_caregiver_migration.sql` (เพิ่มระบบผู้ดูแลร่วม)
    - `5.` รันไฟล์ `add_manage_caregiver_permission.sql` (เพิ่มสวิตช์เปิดปิดสิทธิ์)
+   - `6.` รันไฟล์ `add_delete_user_function.sql` (เพิ่มสิทธิ์ลบผู้ใช้งานให้ Admin)
+   - `7.` รันไฟล์ `add_storage_admin_policy.sql` (เพิ่มสิทธิ์ให้ Admin จัดการ Storage ได้)
 
 *(วิธีรัน: นำโค้ดมาวางในช่อง แล้วกดปุ่ม **Run** ที่มุมขวาล่าง พอมันขึ้น Success ค่อยลบโค้ดออกแล้วเอาไฟล์ถัดไปมาวางรันต่อครับ)*
 
