@@ -1,0 +1,51 @@
+{
+  "projectName": "Tacking Timeline Anything",
+  "projectType": "web-app",
+  "outputLanguage": "bilingual",
+  "promptPackLevel": "standard",
+  "documentsToGenerate": [
+    "prd.md",
+    "architecture.md",
+    "tasks.md",
+    "design.md",
+    "memory.md",
+    "rules.md",
+    "context.md",
+    "api.md",
+    "database.md"
+  ],
+  "coreFeatures": [
+    "1. admin เป็นคน Appove คนขอใช้ระบบ",
+    "2. กำหนดสิทธิ ให้ User สามารถสร้าง User Profile ได้",
+    "3. แต่ละ User Profile จะประกอบด้วยรายละเอียดต่างๆ สามารถตอบปัญหาของเราได้",
+    "4. admin เป็นคน กำหนด สิทธิ ในการแชร์เอกสาร",
+    "5. admin เป็นคน กำหนด สิทธิในการออก Report",
+    "6. admin กำหนดได้ว่า  แต่ละ user สามารถสร้างได้กี่ profile",
+    "7. user สามารถ สร้าง profile ของคนในครอบครัวได้ ตามที่ admin กำหนด เช่น user1 สร้างได้ 3 profile คือ profile ของพ่อ, profile ของแม่ และ Profile ของตนเอง",
+    "8.  user สามารถออกรายงานเป็น Timeline กำหนดช่วงวัน",
+    "9. สามารถแชร์ให้คนอื่นที่ได้ link ดูได้โดยไม่ต้องมี password แต่มีการกำหนด Exprie link เช่นสร้าง link ให้ 10 นาที หรือ แชร์ 7 วัน",
+    "10. user สามารถ Attack File แต่ละครั้งใน Timeline ได้"
+  ],
+  "aiTargetContext": {
+    "targetProfile": {
+      "id": "generic-agent",
+      "label": "Generic Agent",
+      "workflowStyle": "Tool-agnostic, markdown-first, easy to adapt",
+      "handoffStyle": "สื่อสารชัดเป็นขั้นตอน ใช้ภาษาเรียบและลด assumption ที่ผูกกับ IDE ใด IDE หนึ่ง",
+      "promptBias": "เน้น context completeness, next-task execution และ memory updates แบบทั่วไป"
+    },
+    "provider": {
+      "id": "deterministic-fallback",
+      "label": "Standard Fallback",
+      "model": null,
+      "timeoutMs": null
+    }
+  },
+  "aiDocuments": [],
+  "aiQualityGate": null,
+  "aiAnalysis": null,
+  "providerDiagnosticsHistory": null,
+  "contextSync": null,
+  "teamTemplate": null,
+  "generatedAt": "2026-07-10T07:19:20.366Z"
+}

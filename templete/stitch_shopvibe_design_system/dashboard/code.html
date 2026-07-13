@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html class="light" lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tracking Timeline Anything - Dashboard</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<!-- Tailwind CSS & Config -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#d6c0d3",
+                        "surface-container-highest": "#efddeb",
+                        "surface-bright": "#fff7fa",
+                        "success": "#22C55E",
+                        "surface-container-high": "#f5e3f1",
+                        "tertiary-container": "#cea700",
+                        "info": "#3B82F6",
+                        "surface": "#FFFFFF",
+                        "text-main": "#171717",
+                        "secondary-container": "#3fe1fd",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#ffd6fd",
+                        "surface-container-low": "#ffeffb",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "on-primary-fixed": "#36003e",
+                        "on-surface": "#221822",
+                        "primary-fixed-dim": "#fbabff",
+                        "error": "#EF4444",
+                        "on-primary-fixed-variant": "#7c008e",
+                        "inverse-primary": "#fbabff",
+                        "tertiary-fixed-dim": "#eec200",
+                        "on-primary-container": "#fffbff",
+                        "on-tertiary": "#ffffff",
+                        "border-medium": "#D4D4D4",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "tertiary-fixed": "#ffe083",
+                        "on-surface-variant": "#524251",
+                        "secondary-fixed": "#a2eeff",
+                        "surface-variant": "#efddeb",
+                        "background": "#FAFAFA",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "warning": "#F59E0B",
+                        "secondary": "#006877",
+                        "on-tertiary-container": "#4e3e00",
+                        "on-error-container": "#93000a",
+                        "primary": "#9e00b5",
+                        "on-tertiary-fixed": "#231b00",
+                        "surface-dim": "#e7d5e3",
+                        "outline": "#847183",
+                        "inverse-surface": "#382d37",
+                        "on-background": "#221822",
+                        "border-light": "#E5E5E5",
+                        "text-muted": "#525252",
+                        "inverse-on-surface": "#feebfa",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#fbe9f7",
+                        "surface-tint": "#a200ba",
+                        "tertiary": "#735c00",
+                        "primary-container": "#c028d7",
+                        "on-secondary-fixed": "#001f25",
+                        "on-secondary-container": "#00616f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-tablet": "80px",
+                        "section-desktop": "112px",
+                        "xs": "4px",
+                        "base": "8px",
+                        "lg": "24px",
+                        "section-mobile": "56px",
+                        "sm": "8px",
+                        "xl": "32px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "code": ["Space Mono"],
+                        "subhead": ["Plus Jakarta Sans"],
+                        "caption": ["Nunito Sans"],
+                        "body": ["Nunito Sans"],
+                        "headline": ["Plus Jakarta Sans"],
+                        "display": ["Plus Jakarta Sans"],
+                        "body-sm": ["Nunito Sans"],
+                        "body-lg": ["Nunito Sans"],
+                        "overline": ["Nunito Sans"]
+                    },
+                    "fontSize": {
+                        "code": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "subhead": ["26px", { "lineHeight": "1.3", "letterSpacing": "0.005em", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "body": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline": ["40px", { "lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "700" }],
+                        "display": ["56px", { "lineHeight": "1.1", "letterSpacing": "0.02em", "fontWeight": "800" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "overline": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<!-- Custom Micro-interactions CSS -->
+<style>
+        .product-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .product-hover:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(217, 70, 239, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body text-body antialiased flex h-screen overflow-hidden">
+<!-- JSON Component: SideNavBar -->
+<nav class="bg-surface border-r border-border-light shadow-md hidden md:flex flex-col h-full w-64 flex-shrink-0 relative z-40">
+<!-- Header -->
+<div class="p-md flex items-center gap-sm border-b border-border-light">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center overflow-hidden">
+<img alt="Family Account Profile" class="w-full h-full object-cover" data-alt="A clean, minimalist 3D rendering of a generic profile avatar icon in vibrant fuchsia against a pristine white background. The lighting is high-key and studio-quality, conveying a modern, trendy corporate lifestyle brand aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSHgZzmTIdEGYftYkDbbY0OLfwULgvdGT6faYNEl-fETRpgt5U0NI3KAeIFD-dZPCceT4TXTXKet9m0qPf4oUgT7vHvwAHAvvZ6CkkAtfRr28RzGzJz353BCLPzIYM6WuOFJd_Oj_mahUY2bivVJApz1ijlNobB7mlxa3ct_9EZ7IZCVbtvyb9aDXRKbzV-ooyDHLr5CvgEv4cVGYxC2iffEkUpFr4yHjKEpANMBCXMGXvkSg1VLx6LPVQHfakx6MY_WvE7-XddAE"/>
+</div>
+<div>
+<div class="font-display text-subhead font-extrabold text-primary leading-none">Health Hub</div>
+<div class="font-caption text-caption text-on-surface-variant">Family Records</div>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 overflow-y-auto p-md gap-sm flex flex-col">
+<!-- Active Tab: Dashboard -->
+<a class="flex items-center gap-sm px-sm py-xs bg-primary-container text-on-primary-container font-bold rounded-xl opacity-100 transition-opacity" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-xs text-on-surface-variant hover:bg-surface-container-high rounded-xl hover:transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="timeline">timeline</span>
+<span>Timeline</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-xs text-on-surface-variant hover:bg-surface-container-high rounded-xl hover:transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="monitor_heart">monitor_heart</span>
+<span>Vitals</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-xs text-on-surface-variant hover:bg-surface-container-high rounded-xl hover:transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="attachment">attachment</span>
+<span>Documents</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-xs text-on-surface-variant hover:bg-surface-container-high rounded-xl hover:transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="ios_share">ios_share</span>
+<span>Sharing</span>
+</a>
+</div>
+<!-- CTA & Footer Tabs -->
+<div class="p-md gap-sm flex flex-col border-t border-border-light">
+<button class="w-full py-sm bg-primary text-on-primary font-bold rounded-full shadow-sm hover:bg-primary-container transition-colors duration-200 mb-sm">
+                Add Entry
+            </button>
+<a class="flex items-center gap-sm px-sm py-xs text-on-surface-variant hover:bg-surface-container-high rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-sm px-sm py-xs text-on-surface-variant hover:bg-surface-container-high rounded-xl transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span>Support</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+<!-- JSON Component: TopNavBar -->
+<header class="bg-surface border-b border-border-light shadow-sm flex justify-between items-center px-lg py-sm w-full sticky top-0 z-50 flex-shrink-0">
+<div class="flex items-center gap-sm">
+<!-- Mobile Menu Trigger -->
+<button class="md:hidden text-on-surface-variant hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="font-display text-subhead font-extrabold text-primary">Tracking Timeline Anything</div>
+</div>
+<div class="flex items-center gap-md">
+<div class="hidden sm:flex relative">
+<input class="pl-lg pr-sm py-xs rounded-[12px] border-border-medium border-2 focus:border-primary focus:ring focus:ring-primary/15 bg-surface text-body-sm font-body w-64 h-[44px] transition-all" placeholder="Search..." type="text"/>
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-text-muted text-[20px]">search</span>
+</div>
+<div class="flex items-center gap-sm text-on-surface-variant">
+<button class="hover:text-primary transition-colors duration-200 relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Canvas Area -->
+<main class="flex-1 overflow-y-auto p-md md:p-xl space-y-xl bg-background">
+<!-- Page Header -->
+<div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-sm mb-lg">
+<div>
+<h1 class="font-headline text-headline font-bold text-on-background">ภาพรวมครอบครัว</h1>
+<p class="font-body-lg text-body-lg text-text-muted mt-xs">ติดตามสุขภาพและกิจกรรมของทุกคนในบ้าน</p>
+</div>
+<button class="bg-primary text-on-primary font-bold rounded-full px-lg py-sm flex items-center justify-center gap-xs hover:bg-[#C026D3] transition-colors shadow-sm whitespace-nowrap">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                    เพิ่มด่วน
+                </button>
+</div>
+<!-- Profile Cards Grid (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-md">
+<!-- Profile Card: Mom -->
+<div class="bg-surface rounded-[16px] border border-border-light p-md product-hover flex flex-col relative overflow-hidden group cursor-pointer">
+<div class="absolute top-0 right-0 w-24 h-24 bg-primary-container rounded-bl-full opacity-20 -z-10 group-hover:scale-110 transition-transform"></div>
+<div class="flex items-center justify-between mb-sm">
+<div class="flex items-center gap-sm">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="แม่" class="w-full h-full object-cover" data-alt="A highly detailed, modern lifestyle portrait of a vibrant older Asian woman smiling softly. Clean, bright studio lighting. Minimalist background. High contrast fuchsia aesthetic subtle tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwmT3naiw8mrqnCqGLXGFtT8K6-m2dyedrewzW5Iz6_HMDJe_TJpKgsQNgundn_WVgC_Y3sXmX8Dga2fZv2CveEx3YMpl735IKwaV0I60E0aOMmpSB5EdtwmI6ZKbhpOmamVvSFpP3Tq-GNjNkXJuW06sw3RnX1g9VjIJesdO2ZhVjaXwlIquKpdJYnEtVkdMqYN3yys-Z-ddSfBZGkR7s7f3VP8bV8IbiLHFjF2Z85ECMN-rM3db5c9nwFs4lfHoeP3ut-3aWu0o"/>
+</div>
+<div>
+<h2 class="font-subhead text-subhead font-semibold text-on-background leading-tight">แม่</h2>
+<span class="inline-block mt-xs px-2 py-0.5 bg-surface-container-high text-primary text-caption font-caption rounded-full">VIP</span>
+</div>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-auto space-y-xs">
+<div class="flex justify-between items-center py-xs border-b border-border-light border-dashed">
+<span class="font-body-sm text-body-sm text-text-muted">เข้ารับบริการล่าสุด</span>
+<span class="font-body-sm text-body-sm font-medium">12 ต.ค. 2023</span>
+</div>
+<div class="flex justify-between items-center py-xs border-b border-border-light border-dashed">
+<span class="font-body-sm text-body-sm text-text-muted">อายุ</span>
+<span class="font-body-sm text-body-sm font-medium">62 ปี</span>
+</div>
+<div class="flex justify-between items-center py-xs">
+<span class="font-body-sm text-body-sm text-text-muted">น้ำหนัก</span>
+<span class="font-body-sm text-body-sm font-medium text-warning">58 กก.</span>
+</div>
+</div>
+</div>
+<!-- Profile Card: Dad -->
+<div class="bg-surface rounded-[16px] border border-border-light p-md product-hover flex flex-col relative overflow-hidden group cursor-pointer">
+<div class="absolute top-0 right-0 w-24 h-24 bg-secondary-container rounded-bl-full opacity-20 -z-10 group-hover:scale-110 transition-transform"></div>
+<div class="flex items-center justify-between mb-sm">
+<div class="flex items-center gap-sm">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-secondary-container">
+<img alt="พ่อ" class="w-full h-full object-cover" data-alt="A bright, energetic corporate headshot of a middle-aged Asian man with glasses. Professional pristine white background with a subtle cool blue tint reflecting a modern health tech brand style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuWG1XFlKZO16lwroddZ463xdxT9pFzEaDyqnVOm57kcmWt86-wRFkelsesr18uFu4S5FyjHuNOgnlYhAqZ0Y6NcES8Sn5SOSyRHgRad1Li-EiBkvenD5EN3Vf1pNhahQQxF0xVDMDU21GHEqEytYy9xmFXEO2oud6dk9_s6UWnf5EoE1GBRcDBMtW6o1J-5XjPSNR1Wk_TrhGZoGjpv5zs0QEPemq8y8KcHf4NVUa3CeBK6FVKJveN_ZXFzPEaEpEz4KJBKy6qC4"/>
+</div>
+<div>
+<h2 class="font-subhead text-subhead font-semibold text-on-background leading-tight">พ่อ</h2>
+</div>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-auto space-y-xs">
+<div class="flex justify-between items-center py-xs border-b border-border-light border-dashed">
+<span class="font-body-sm text-body-sm text-text-muted">เข้ารับบริการล่าสุด</span>
+<span class="font-body-sm text-body-sm font-medium">05 พ.ย. 2023</span>
+</div>
+<div class="flex justify-between items-center py-xs border-b border-border-light border-dashed">
+<span class="font-body-sm text-body-sm text-text-muted">อายุ</span>
+<span class="font-body-sm text-body-sm font-medium">65 ปี</span>
+</div>
+<div class="flex justify-between items-center py-xs">
+<span class="font-body-sm text-body-sm text-text-muted">น้ำหนัก</span>
+<span class="font-body-sm text-body-sm font-medium">72 กก.</span>
+</div>
+</div>
+</div>
+<!-- Profile Card: Me -->
+<div class="bg-surface rounded-[16px] border border-border-light p-md product-hover flex flex-col relative overflow-hidden group cursor-pointer">
+<div class="absolute top-0 right-0 w-24 h-24 bg-tertiary-container rounded-bl-full opacity-20 -z-10 group-hover:scale-110 transition-transform"></div>
+<div class="flex items-center justify-between mb-sm">
+<div class="flex items-center gap-sm">
+<div class="w-12 h-12 rounded-full overflow-hidden border-2 border-tertiary-container">
+<img alt="ฉัน" class="w-full h-full object-cover" data-alt="A vibrant, youthful lifestyle portrait of a young adult looking directly at the camera. Soft high-key lighting, clean white background, conveying a trendy, energetic e-commerce aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzIoP0BHq4vPunoo0zRDswXqkxC6R3MimSM4Pinelx-ZXELL0kDe8Ijr8qOUFzUNDwB_1ZmNoNaqMtMrb09VmQCKOMdxIVMVA39hrL7FToL1PlqCddO0ROK1md3r3f5CDnP80HApYX35IwJj-TeydWBOqw_S8YKffigo-CemIuH0T3Iof6EN-pkc9uZk2wNMrtb7wn9CjKQr9XkoLEp_6Zq7oS7RaU03qeKFZrlhizmMuSH0IZF2k757c_fwa9lh-o5DEce-Q8KnY"/>
+</div>
+<div>
+<h2 class="font-subhead text-subhead font-semibold text-on-background leading-tight">ฉัน</h2>
+</div>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+<div class="mt-auto space-y-xs">
+<div class="flex justify-between items-center py-xs border-b border-border-light border-dashed">
+<span class="font-body-sm text-body-sm text-text-muted">เข้ารับบริการล่าสุด</span>
+<span class="font-body-sm text-body-sm font-medium text-success">วันนี้</span>
+</div>
+<div class="flex justify-between items-center py-xs border-b border-border-light border-dashed">
+<span class="font-body-sm text-body-sm text-text-muted">อายุ</span>
+<span class="font-body-sm text-body-sm font-medium">28 ปี</span>
+</div>
+<div class="flex justify-between items-center py-xs">
+<span class="font-body-sm text-body-sm text-text-muted">น้ำหนัก</span>
+<span class="font-body-sm text-body-sm font-medium">60 กก.</span>
+</div>
+</div>
+</div>
+</div> <!-- End Profile Cards Grid -->
+<!-- Recent Activities Section -->
+<section class="mt-xl">
+<h2 class="font-subhead text-subhead font-bold text-on-background mb-md">กิจกรรมล่าสุด</h2>
+<div class="bg-surface rounded-[16px] border border-border-light p-md shadow-sm">
+<div class="relative pl-sm">
+<!-- Timeline Line -->
+<div class="absolute top-2 bottom-2 left-[21px] w-0.5 bg-border-light"></div>
+<!-- Timeline Items -->
+<div class="space-y-md">
+<!-- Item 1 -->
+<div class="relative flex gap-md items-start group">
+<div class="w-10 h-10 rounded-full bg-primary-container text-primary flex items-center justify-center shrink-0 z-10 border-4 border-surface shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[20px]">vaccines</span>
+</div>
+<div class="flex-1 pt-1">
+<div class="flex justify-between items-start">
+<p class="font-body text-body font-medium text-on-background">ฉันฉีดวัคซีนไข้หวัดใหญ่</p>
+<span class="font-caption text-caption text-text-muted whitespace-nowrap">2 ชม. ที่แล้ว</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-muted mt-xs">คลินิกสุขภาพดี</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="relative flex gap-md items-start group">
+<div class="w-10 h-10 rounded-full bg-secondary-container text-secondary flex items-center justify-center shrink-0 z-10 border-4 border-surface shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[20px]">medical_services</span>
+</div>
+<div class="flex-1 pt-1">
+<div class="flex justify-between items-start">
+<p class="font-body text-body font-medium text-on-background">พ่อไปคลินิกตรวจตา</p>
+<span class="font-caption text-caption text-text-muted whitespace-nowrap">เมื่อวาน</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-muted mt-xs">รอผลตรวจสัปดาห์หน้า</p>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="relative flex gap-md items-start group">
+<div class="w-10 h-10 rounded-full bg-surface-container-high text-on-surface-variant flex items-center justify-center shrink-0 z-10 border-4 border-surface shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[20px]">monitor_weight</span>
+</div>
+<div class="flex-1 pt-1">
+<div class="flex justify-between items-start">
+<p class="font-body text-body font-medium text-on-background">แม่อัปเดตข้อมูลสุขภาพ (น้ำหนัก)</p>
+<span class="font-caption text-caption text-text-muted whitespace-nowrap">12 ต.ค.</span>
+</div>
+<p class="font-body-sm text-body-sm text-text-muted mt-xs">ลดลง 2 กก. เยี่ยมมาก!</p>
+</div>
+</div>
+</div>
+</div>
+<button class="w-full text-center mt-md pt-sm border-t border-border-light text-primary font-caption text-caption font-bold hover:underline">
+                        ดูประวัติทั้งหมด
+                    </button>
+</div>
+</section>
+</main>
+</div>
+</body></html>

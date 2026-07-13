@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html class="light" lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Health Hub - Timeline</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;family=Space+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "error-container": "#ffdad6", "on-error": "#ffffff", "outline-variant": "#d6c0d3", "surface-container-highest": "#efddeb", "surface-bright": "#fff7fa", "success": "#22C55E", "surface-container-high": "#f5e3f1", "tertiary-container": "#cea700", "info": "#3B82F6", "surface": "#FFFFFF", "text-main": "#171717", "secondary-container": "#3fe1fd", "on-primary": "#ffffff", "primary-fixed": "#ffd6fd", "surface-container-low": "#ffeffb", "on-secondary": "#ffffff", "on-secondary-fixed-variant": "#004e5a", "on-primary-fixed": "#36003e", "on-surface": "#221822", "primary-fixed-dim": "#fbabff", "error": "#EF4444", "on-primary-fixed-variant": "#7c008e", "inverse-primary": "#fbabff", "tertiary-fixed-dim": "#eec200", "on-primary-container": "#fffbff", "on-tertiary": "#ffffff", "border-medium": "#D4D4D4", "secondary-fixed-dim": "#2fd9f4", "tertiary-fixed": "#ffe083", "on-surface-variant": "#524251", "secondary-fixed": "#a2eeff", "surface-variant": "#efddeb", "background": "#FAFAFA", "on-tertiary-fixed-variant": "#574500", "warning": "#F59E0B", "secondary": "#006877", "on-tertiary-container": "#4e3e00", "on-error-container": "#93000a", "primary": "#9e00b5", "on-tertiary-fixed": "#231b00", "surface-dim": "#e7d5e3", "outline": "#847183", "inverse-surface": "#382d37", "on-background": "#221822", "border-light": "#E5E5E5", "text-muted": "#525252", "inverse-on-surface": "#feebfa", "surface-container-lowest": "#ffffff", "surface-container": "#fbe9f7", "surface-tint": "#a200ba", "tertiary": "#735c00", "primary-container": "#c028d7", "on-secondary-fixed": "#001f25", "on-secondary-container": "#00616f"
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px" },
+                    spacing: { "section-tablet": "80px", "section-desktop": "112px", "xs": "4px", "base": "8px", "lg": "24px", "section-mobile": "56px", "sm": "8px", "xl": "32px", "md": "16px" },
+                    fontFamily: {
+                        "code": ["Space Mono"], "subhead": ["Plus Jakarta Sans"], "caption": ["Nunito Sans"], "body": ["Nunito Sans"], "headline": ["Plus Jakarta Sans"], "display": ["Plus Jakarta Sans"], "body-sm": ["Nunito Sans"], "body-lg": ["Nunito Sans"], "overline": ["Nunito Sans"]
+                    },
+                    fontSize: {
+                        "code": ["14px", { lineHeight: "1.5", fontWeight: "400" }],
+                        "subhead": ["26px", { lineHeight: "1.3", letterSpacing: "0.005em", fontWeight: "600" }],
+                        "caption": ["12px", { lineHeight: "1.4", letterSpacing: "0.02em", fontWeight: "500" }],
+                        "body": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "headline": ["40px", { lineHeight: "1.2", letterSpacing: "0.01em", fontWeight: "700" }],
+                        "display": ["56px", { lineHeight: "1.1", letterSpacing: "0.02em", fontWeight: "800" }],
+                        "body-sm": ["14px", { lineHeight: "1.5", fontWeight: "400" }],
+                        "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+                        "overline": ["11px", { lineHeight: "1.2", letterSpacing: "0.1em", fontWeight: "700" }]
+                    },
+                    boxShadow: {
+                        'product': '0 4px 12px rgba(217, 70, 239, 0.12)', // Fuchsia tint hover
+                        'sm': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+                        'md': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)'
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
+        
+        .timeline-item { opacity: 0; transform: translateY(20px); animation: fadeInUp 0.5s ease forwards; }
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d6c0d3; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #847183; }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-screen flex overflow-hidden font-body text-body">
+<!-- SideNavBar (Shared Component) -->
+<nav class="bg-surface dark:bg-surface-dim border-r border-border-light dark:border-outline-variant shadow-md h-screen w-64 docked left-0 hidden md:flex flex-col p-md gap-sm z-40 relative">
+<div class="mb-xl px-sm flex items-center gap-md">
+<div class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-lg">
+                H
+            </div>
+<div>
+<h1 class="font-display text-subhead font-extrabold text-primary dark:text-primary-fixed-dim text-[20px]">Health Hub</h1>
+<p class="font-caption text-caption text-on-surface-variant">Family Records</p>
+</div>
+</div>
+<div class="flex-1 space-y-xs">
+<!-- Inactive -->
+<a class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all duration-200 flex items-center gap-md px-md py-sm rounded-xl" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body text-body">Dashboard</span>
+</a>
+<!-- Active -->
+<a class="bg-primary-container text-on-primary-container font-bold rounded-xl flex items-center gap-md px-md py-sm Active: scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined fill">timeline</span>
+<span class="font-body text-body">Timeline</span>
+</a>
+<!-- Inactive -->
+<a class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all duration-200 flex items-center gap-md px-md py-sm rounded-xl" href="#">
+<span class="material-symbols-outlined">monitor_heart</span>
+<span class="font-body text-body">Vitals</span>
+</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all duration-200 flex items-center gap-md px-md py-sm rounded-xl" href="#">
+<span class="material-symbols-outlined">attachment</span>
+<span class="font-body text-body">Documents</span>
+</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-all duration-200 flex items-center gap-md px-md py-sm rounded-xl" href="#">
+<span class="material-symbols-outlined">ios_share</span>
+<span class="font-body text-body">Sharing</span>
+</a>
+</div>
+<div class="mt-auto space-y-xs pt-md border-t border-border-light">
+<button class="w-full bg-primary text-on-primary font-bold rounded-full py-sm px-md flex items-center justify-center gap-sm shadow-md hover:bg-primary/90 transition-colors mb-md">
+<span class="material-symbols-outlined">add</span> Add Entry
+            </button>
+<a class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high transition-all duration-200 flex items-center gap-md px-md py-sm rounded-xl" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body text-body">Settings</span>
+</a>
+<a class="text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high transition-all duration-200 flex items-center gap-md px-md py-sm rounded-xl" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-body text-body">Support</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden relative bg-background">
+<!-- TopNavBar (Shared Component) -->
+<header class="bg-surface dark:bg-background shadow-sm flex justify-between items-center px-lg py-sm w-full sticky top-0 z-50">
+<div class="md:hidden font-display text-subhead font-extrabold text-primary dark:text-primary-fixed-dim text-[20px]">
+                Health Hub
+            </div>
+<div class="hidden md:block font-headline text-headline font-bold text-[24px]">
+                Tracking Timeline Anything
+            </div>
+<div class="flex items-center gap-md">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-lowest border border-border-light rounded-full text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-64 transition-all" placeholder="ค้นหา..." type="text"/>
+</div>
+<button class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 p-2 rounded-full hover:bg-surface-container-low">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-on-surface-variant dark:text-outline-variant hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 p-2 rounded-full hover:bg-surface-container-low">
+<span class="material-symbols-outlined fill">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Canvas -->
+<div class="flex-1 overflow-y-auto p-md md:p-lg lg:p-xl">
+<div class="max-w-4xl mx-auto w-full space-y-xl pb-section-desktop">
+<!-- Header Actions & Profile -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md border-b border-border-light pb-lg">
+<div class="flex items-center gap-lg">
+<div class="relative w-20 h-20 rounded-full border-4 border-surface shadow-md overflow-hidden bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="A professional, high-quality, brightly lit photographic portrait of an elderly Asian woman with short gray hair, smiling warmly. She is wearing a soft beige cardigan. The background is a gently blurred, light-filled modern home interior, creating a welcoming and reassuring mood. Shot with a shallow depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5Qq1J3-Zod54YKNJW5D_BwA1NYFSUP0PAE5QWSZb5I4BFZGAYT1skEgTmzmkZq6gQUik3PjZxuKTypeFZS3lqEaHXvaAh2Of0OdUE17Y45vFo6DlooCEdF7870_1vtYI4r60dBUPfosV4vB6fbTgKyIptQ_LRfH8RQDyh37pTfU3gTsai7o-IQnRBHmWaT8DYoTFrbYJtU3Hnj-XYBQbMGuYzyn0OK-tDOn9H8x1fl0O4XW9FY71ZDa4sAnouCWxYLXyamqr2gAQ"/>
+</div>
+<div>
+<h2 class="font-headline text-[32px] font-bold text-on-surface leading-tight">คุณแม่</h2>
+<p class="font-body text-body-lg text-text-muted flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-success"></span>
+                                อัปเดตล่าสุดเมื่อ 2 ชั่วโมงที่แล้ว
+                            </p>
+</div>
+</div>
+<div class="flex items-center gap-sm w-full md:w-auto">
+<div class="relative flex-1 md:flex-none">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-text-muted text-sm">calendar_month</span>
+<select class="w-full md:w-auto pl-9 pr-8 py-2 bg-surface border border-border-medium rounded-full text-sm font-body text-on-surface focus:border-primary focus:ring-1 focus:ring-primary appearance-none cursor-pointer">
+<option>30 วันล่าสุด</option>
+<option>3 เดือนล่าสุด</option>
+<option>ปีนี้</option>
+</select>
+</div>
+<button class="bg-primary text-on-primary font-bold rounded-full px-lg py-2 flex items-center justify-center gap-xs shadow-md hover:-translate-y-0.5 hover:shadow-product transition-all duration-200 whitespace-nowrap">
+<span class="material-symbols-outlined text-sm">ios_share</span>
+                            แชร์ไทม์ไลน์
+                        </button>
+</div>
+</div>
+<!-- Timeline Container -->
+<div class="relative pl-8 md:pl-0">
+<!-- Vertical Line (Desktop: center, Mobile: left) -->
+<div class="absolute left-[15px] md:left-1/2 top-0 bottom-0 w-0.5 bg-outline-variant/30 md:-translate-x-1/2"></div>
+<div class="space-y-lg">
+<!-- Event 1: Vitals -->
+<div class="timeline-item relative flex md:justify-between items-center w-full">
+<div class="hidden md:block w-[45%] text-right pr-lg">
+<span class="font-body-sm text-text-muted">วันนี้, 08:30 น.</span>
+</div>
+<div class="absolute left-[-32px] md:left-1/2 w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container border-4 border-background flex items-center justify-center md:-translate-x-1/2 z-10 shadow-sm">
+<span class="material-symbols-outlined text-[16px]">monitor_heart</span>
+</div>
+<div class="w-full md:w-[45%] pl-lg md:pl-lg">
+<div class="bg-surface rounded-2xl border border-border-light p-md shadow-sm hover:shadow-product hover:-translate-y-1 transition-all duration-300">
+<div class="flex justify-between items-start mb-2">
+<div class="md:hidden font-body-sm text-text-muted mb-1">วันนี้, 08:30 น.</div>
+<span class="px-2 py-1 rounded-full bg-success/10 text-success font-caption text-caption">เสร็จสิ้น</span>
+</div>
+<h3 class="font-subhead text-[18px] font-bold text-on-surface mb-2">อัปเดตสัญญาณชีพ</h3>
+<div class="grid grid-cols-2 gap-sm bg-surface-container-lowest p-sm rounded-xl border border-border-light/50">
+<div>
+<p class="font-caption text-text-muted">ความดันโลหิต</p>
+<p class="font-code text-code font-bold text-on-surface">120/80 <span class="text-xs font-normal">mmHg</span></p>
+</div>
+<div>
+<p class="font-caption text-text-muted">อัตราการเต้นหัวใจ</p>
+<p class="font-code text-code font-bold text-on-surface">72 <span class="text-xs font-normal">bpm</span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Event 2: Doctor Visit -->
+<div class="timeline-item relative flex md:justify-between items-center w-full md:flex-row-reverse">
+<div class="hidden md:block w-[45%] text-left pl-lg">
+<span class="font-body-sm text-text-muted">12 พ.ค. 2567, 10:00 น.</span>
+</div>
+<div class="absolute left-[-32px] md:left-1/2 w-8 h-8 rounded-full bg-primary-container text-on-primary-container border-4 border-background flex items-center justify-center md:-translate-x-1/2 z-10 shadow-sm">
+<span class="material-symbols-outlined text-[16px]">stethoscope</span>
+</div>
+<div class="w-full md:w-[45%] pl-lg md:pl-0 md:pr-lg text-left md:text-right">
+<div class="bg-surface rounded-2xl border border-border-light p-md shadow-sm hover:shadow-product hover:-translate-y-1 transition-all duration-300 text-left">
+<div class="flex justify-between items-start mb-2">
+<div class="md:hidden font-body-sm text-text-muted mb-1">12 พ.ค. 2567, 10:00 น.</div>
+<span class="px-2 py-1 rounded-full bg-success/10 text-success font-caption text-caption">เสร็จสิ้น</span>
+</div>
+<h3 class="font-subhead text-[18px] font-bold text-on-surface mb-1">พบแพทย์ (ตรวจสุขภาพ)</h3>
+<p class="font-body text-body-sm text-text-muted mb-sm">โรงพยาบาลศิริราช - นพ. สมชาย</p>
+<p class="font-body text-body text-on-surface-variant mb-md bg-surface-container-lowest p-sm rounded-lg border border-border-light/50">
+                                        ผลตรวจเลือดปกติ คอเลสเตอรอลลดลงเล็กน้อย แนะนำให้ออกกำลังกายเบาๆ อย่างต่อเนื่อง
+                                    </p>
+<div class="flex gap-xs mt-2 overflow-x-auto pb-1">
+<div class="w-16 h-16 rounded-lg bg-surface-container-high border border-border-light overflow-hidden flex-shrink-0 relative group cursor-pointer">
+<img class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" data-alt="A clean, flat-lay photograph of a medical document on a bright white desk. The document has some visible charts and text, softly blurred to indicate privacy. A sleek metallic pen lies next to it. Soft, diffuse, cool-toned lighting emphasizes a modern, clinical, and organized aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8R4rAUY-ZjG7kTYaK56McnHwgBUrHeZXjjQZn2-9_Vj2kK_jmlt2sZk6ATGgGq88jvxwbVxI-fWkylWewjJzMkHrOfPzK8EY0aslkZdtdCOZlC7RMIAMFb3vP-A0e9PkUQCM_7GxD3NO-E5HAAv7InB9Qcj69gUcJDvgztBpd6MkViQInNHdE4iqPnCMzBkimnP17fMG9Eu0RKkE7wh2jTyTeTi_h1UCzRCHLr2M0GDBTvhJWL2jRzXAprAR_HovufxAiVQDDnS8"/>
+<span class="material-symbols-outlined absolute inset-0 m-auto w-6 h-6 text-white drop-shadow-md">description</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>

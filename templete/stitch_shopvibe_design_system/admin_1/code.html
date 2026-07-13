@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+<html lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>การตั้งค่าระบบ - ShopVibe Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;500;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;family=Space+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "text-main": "#171717",
+                        "primary-fixed-dim": "#fbabff",
+                        "border-light": "#E5E5E5",
+                        "primary": "#9e00b5",
+                        "surface-container-highest": "#efddeb",
+                        "secondary-fixed": "#a2eeff",
+                        "warning": "#F59E0B",
+                        "tertiary-fixed-dim": "#eec200",
+                        "on-error-container": "#93000a",
+                        "text-muted": "#525252",
+                        "secondary-container": "#3fe1fd",
+                        "tertiary-fixed": "#ffe083",
+                        "surface-bright": "#fff7fa",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#fbe9f7",
+                        "surface-container-high": "#f5e3f1",
+                        "surface-tint": "#a200ba",
+                        "tertiary-container": "#cea700",
+                        "outline": "#847183",
+                        "primary-fixed": "#ffd6fd",
+                        "outline-variant": "#d6c0d3",
+                        "on-surface-variant": "#524251",
+                        "surface-container-low": "#ffeffb",
+                        "inverse-primary": "#fbabff",
+                        "surface-variant": "#efddeb",
+                        "on-secondary-fixed": "#001f25",
+                        "info": "#3B82F6",
+                        "on-primary-fixed": "#36003e",
+                        "on-tertiary-container": "#4e3e00",
+                        "surface-container-lowest": "#ffffff",
+                        "success": "#22C55E",
+                        "on-primary-container": "#fffbff",
+                        "surface-dim": "#e7d5e3",
+                        "surface": "#FFFFFF",
+                        "on-tertiary-fixed": "#231b00",
+                        "on-error": "#ffffff",
+                        "on-surface": "#221822",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#7c008e",
+                        "on-background": "#221822",
+                        "secondary": "#006877",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "on-secondary": "#ffffff",
+                        "border-medium": "#D4D4D4",
+                        "inverse-surface": "#382d37",
+                        "on-primary": "#ffffff",
+                        "background": "#FAFAFA",
+                        "inverse-on-surface": "#feebfa",
+                        "primary-container": "#c028d7",
+                        "error": "#EF4444",
+                        "on-secondary-container": "#00616f",
+                        "tertiary": "#735c00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "section-mobile": "56px",
+                        "xl": "32px",
+                        "base": "8px",
+                        "md": "16px",
+                        "section-desktop": "112px",
+                        "section-tablet": "80px",
+                        "lg": "24px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "overline": ["Nunito Sans"],
+                        "body": ["Nunito Sans"],
+                        "display": ["Plus Jakarta Sans"],
+                        "subhead": ["Plus Jakarta Sans"],
+                        "caption": ["Nunito Sans"],
+                        "body-sm": ["Nunito Sans"],
+                        "headline": ["Plus Jakarta Sans"],
+                        "body-lg": ["Nunito Sans"],
+                        "code": ["Space Mono"]
+                    },
+                    "fontSize": {
+                        "overline": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display": ["56px", { "lineHeight": "1.1", "letterSpacing": "0.02em", "fontWeight": "800" }],
+                        "subhead": ["26px", { "lineHeight": "1.3", "letterSpacing": "0.005em", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline": ["40px", { "lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "code": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        /* Custom UI behaviors and overrides */
+        .shopvibe-card {
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .shopvibe-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(217, 70, 239, 0.12), 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Custom Toggle Switch */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #9e00b5; /* primary */
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #9e00b5; /* primary */
+        }
+        .toggle-checkbox {
+            right: 4px;
+            z-index: 1;
+            border-color: #D4D4D4;
+            transition: all 0.3s;
+        }
+        .toggle-label {
+            background-color: #E5E5E5;
+            transition: all 0.3s;
+        }
+    </style>
+</head>
+<body class="bg-background text-text-main font-body text-body min-h-screen antialiased selection:bg-primary-container selection:text-on-primary-container">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-64 border-r border-border-light shadow-sm flex flex-col h-full py-md px-sm bg-surface z-50">
+<div class="mb-lg px-sm">
+<div class="font-headline text-subhead font-extrabold text-primary flex items-center gap-sm">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">apps</span>
+                Admin Console
+            </div>
+<p class="font-caption text-caption text-text-muted mt-1">Tracking Timeline</p>
+</div>
+<ul class="flex flex-col gap-sm flex-grow">
+<!-- Dashboard -->
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-xl text-on-surface-variant font-medium hover:bg-surface-container-highest transition-colors active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-sm text-body-sm">Dashboard</span>
+</a>
+</li>
+<!-- User Management -->
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-xl text-on-surface-variant font-medium hover:bg-surface-container-highest transition-colors active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-body-sm text-body-sm">User Management</span>
+</a>
+</li>
+<!-- System Settings (ACTIVE) -->
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-xl text-primary font-bold border-r-2 border-primary bg-surface-container-low transition-colors active:scale-95 duration-200 shadow-[inset_4px_0_0_0_#9e00b5]" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-body-sm text-body-sm">System Settings</span>
+</a>
+</li>
+<!-- Activity Log -->
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-xl text-on-surface-variant font-medium hover:bg-surface-container-highest transition-colors active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-body-sm text-body-sm">Activity Log</span>
+</a>
+</li>
+<!-- Permissions -->
+<li>
+<a class="flex items-center gap-md px-md py-sm rounded-xl text-on-surface-variant font-medium hover:bg-surface-container-highest transition-colors active:scale-95 duration-200" href="#">
+<span class="material-symbols-outlined">security</span>
+<span class="font-body-sm text-body-sm">Permissions</span>
+</a>
+</li>
+</ul>
+<div class="mt-auto flex flex-col gap-sm border-t border-border-light pt-md px-sm">
+<button class="w-full flex justify-center items-center gap-sm bg-primary text-on-primary font-body-sm text-body-sm font-bold py-sm px-md rounded-full hover:bg-primary-container transition-colors shadow-sm mb-md active:scale-95">
+<span class="material-symbols-outlined text-sm">add</span> New Report
+            </button>
+<a class="flex items-center gap-md px-md py-sm rounded-xl text-on-surface-variant font-medium hover:bg-surface-container-highest transition-colors" href="#">
+<span class="material-symbols-outlined">account_circle</span>
+<span class="font-body-sm text-body-sm">Profile</span>
+</a>
+<a class="flex items-center gap-md px-md py-sm rounded-xl text-error font-medium hover:bg-error-container transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-body-sm text-body-sm">Logout</span>
+</a>
+</div>
+</nav>
+<!-- TopNavBar -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-surface shadow-sm flex justify-between items-center h-16 px-lg">
+<div class="flex-1 flex items-center">
+<!-- Search on right per JSON, leaving left empty or for breadcrumbs -->
+<h1 class="font-display text-subhead font-bold text-text-main ml-xs">การตั้งค่าระบบ</h1>
+</div>
+<div class="flex items-center gap-md">
+<div class="relative hidden md:block">
+<span class="material-symbols-outlined absolute left-sm top-1/2 -translate-y-1/2 text-text-muted text-sm">search</span>
+<input class="h-10 pl-10 pr-sm rounded-full border border-border-light bg-background focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-body-sm text-body-sm w-64" placeholder="ค้นหาการตั้งค่า..." type="text"/>
+</div>
+<button class="text-text-muted hover:text-primary transition-colors cursor-pointer active:opacity-80 w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-text-muted hover:text-primary transition-colors cursor-pointer active:opacity-80 w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="text-text-muted hover:text-primary transition-colors cursor-pointer active:opacity-80 w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest">
+<span class="material-symbols-outlined">apps</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 mt-16 p-lg xl:p-xl min-h-[calc(100vh-4rem)] relative overflow-hidden">
+<!-- Background subtle decorative element -->
+<div class="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
+<div class="max-w-7xl mx-auto space-y-lg">
+<!-- Page Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-xl">
+<div>
+<h2 class="font-headline text-headline text-text-main mb-xs">การกำหนดค่าระบบหลัก</h2>
+<p class="font-body text-body text-text-muted max-w-2xl">จัดการค่าเริ่มต้น กฎเกณฑ์ระดับโลก และโครงสร้างข้อมูลสำหรับผู้ใช้งานทั้งหมดในแพลตฟอร์ม</p>
+</div>
+<div class="flex gap-sm">
+<button class="px-lg py-sm rounded-full border-2 border-outline text-text-main font-body-sm text-body-sm font-bold hover:bg-surface-container-highest transition-colors">
+                        ยกเลิก
+                    </button>
+<button class="px-lg py-sm rounded-full bg-primary text-on-primary font-body-sm text-body-sm font-bold shadow-sm hover:bg-primary-container hover:-translate-y-0.5 transition-all focus:ring-4 focus:ring-primary/20">
+                        บันทึกการเปลี่ยนแปลง
+                    </button>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+<!-- Box 1: Global Defaults (Spans 8 cols) -->
+<section class="lg:col-span-8 bg-surface rounded-xl border border-border-light p-lg shopvibe-card">
+<div class="flex items-center gap-sm mb-lg">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">tune</span>
+</div>
+<h3 class="font-subhead text-subhead text-text-main">ค่าเริ่มต้นสำหรับผู้ใช้ใหม่</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<!-- Input 1 -->
+<div class="flex flex-col gap-xs">
+<label class="font-caption text-caption text-text-muted font-bold tracking-wide">จำกัดการสร้างโปรไฟล์เริ่มต้น</label>
+<div class="relative">
+<input class="w-full h-11 px-md rounded-xl border-2 border-border-light bg-background focus:border-primary focus:ring-[3px] focus:ring-primary/15 outline-none transition-all font-body text-body text-text-main" type="number" value="3"/>
+<span class="absolute right-md top-1/2 -translate-y-1/2 text-text-muted font-body-sm text-body-sm">โปรไฟล์</span>
+</div>
+<p class="font-caption text-caption text-text-muted mt-1">จำนวนสูงสุดที่ผู้ใช้ระดับเริ่มต้นสามารถสร้างได้</p>
+</div>
+<!-- Select 1 -->
+<div class="flex flex-col gap-xs">
+<label class="font-caption text-caption text-text-muted font-bold tracking-wide">กลุ่มผู้ใช้งานเริ่มต้น (Default Role)</label>
+<div class="relative">
+<select class="w-full h-11 px-md pr-xl rounded-xl border-2 border-border-light bg-background focus:border-primary focus:ring-[3px] focus:ring-primary/15 outline-none transition-all font-body text-body text-text-main appearance-none">
+<option value="standard">Standard User (ผู้ใช้ทั่วไป)</option>
+<option value="premium">Premium User (พรีเมียม)</option>
+<option value="restricted">Restricted (จำกัดสิทธิ์)</option>
+</select>
+<span class="material-symbols-outlined absolute right-sm top-1/2 -translate-y-1/2 text-text-muted pointer-events-none">expand_more</span>
+</div>
+</div>
+<!-- Textarea -->
+<div class="flex flex-col gap-xs md:col-span-2">
+<label class="font-caption text-caption text-text-muted font-bold tracking-wide">ข้อความต้อนรับเริ่มต้น</label>
+<textarea class="w-full p-md rounded-xl border-2 border-border-light bg-background focus:border-primary focus:ring-[3px] focus:ring-primary/15 outline-none transition-all font-body text-body text-text-main resize-none" rows="3">ยินดีต้อนรับเข้าสู่ระบบจัดการโปรไฟล์ กรุณาตั้งค่าโปรไฟล์ของคุณเพื่อเริ่มต้นใช้งาน</textarea>
+</div>
+</div>
+</section>
+<!-- Box 2: Global Permissions (Spans 4 cols) -->
+<section class="lg:col-span-4 bg-surface rounded-xl border border-border-light p-lg shopvibe-card flex flex-col">
+<div class="flex items-center gap-sm mb-lg">
+<div class="w-10 h-10 rounded-full bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined">admin_panel_settings</span>
+</div>
+<h3 class="font-subhead text-body-lg font-bold text-text-main">การอนุญาตระดับส่วนกลาง</h3>
+</div>
+<div class="flex flex-col gap-lg flex-grow">
+<!-- Toggle 1 -->
+<div class="flex items-center justify-between p-sm rounded-lg hover:bg-background transition-colors -mx-sm">
+<div class="flex flex-col">
+<span class="font-body text-body font-bold text-text-main">อนุญาตการแชร์ข้อมูลสาธารณะ</span>
+<span class="font-caption text-caption text-text-muted">เปิดใช้งานฟีเจอร์การแชร์โปรไฟล์ไปยังภายนอก</span>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer outline-none focus:ring-2 focus:ring-primary/20" id="toggle1" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-border-light cursor-pointer" for="toggle1"></label>
+</div>
+</div>
+<!-- Toggle 2 -->
+<div class="flex items-center justify-between p-sm rounded-lg hover:bg-background transition-colors -mx-sm">
+<div class="flex flex-col">
+<span class="font-body text-body font-bold text-text-main">ระบบรายงาน (Reporting)</span>
+<span class="font-caption text-caption text-text-muted">ให้ผู้ใช้สามารถเข้าถึงหน้าแดชบอร์ดสรุปผล</span>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer outline-none focus:ring-2 focus:ring-primary/20" id="toggle2" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-border-light cursor-pointer" for="toggle2"></label>
+</div>
+</div>
+<!-- Toggle 3 -->
+<div class="flex items-center justify-between p-sm rounded-lg hover:bg-background transition-colors -mx-sm">
+<div class="flex flex-col">
+<span class="font-body text-body font-bold text-text-main">การแจ้งเตือนทางอีเมล</span>
+<span class="font-caption text-caption text-text-muted">บังคับส่งอีเมลเมื่อมีการเปลี่ยนแปลงระบบ</span>
+</div>
+<div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer outline-none focus:ring-2 focus:ring-primary/20" id="toggle3" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-6 rounded-full bg-border-light cursor-pointer" for="toggle3"></label>
+</div>
+</div>
+</div>
+</section>
+<!-- Box 3: Profile Structures (Spans 12 cols, below others) -->
+<section class="lg:col-span-12 bg-surface rounded-xl border border-border-light p-lg shopvibe-card mt-sm">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-md mb-lg border-b border-border-light pb-md">
+<div class="flex items-center gap-sm">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">data_object</span>
+</div>
+<div>
+<h3 class="font-subhead text-subhead text-text-main">โครงสร้างโปรไฟล์ผู้ใช้</h3>
+<p class="font-caption text-caption text-text-muted mt-1">จัดการฟิลด์ข้อมูลที่ต้องการจัดเก็บสำหรับแต่ละโปรไฟล์ (Custom Fields)</p>
+</div>
+</div>
+<button class="flex items-center justify-center gap-xs px-md py-sm rounded-full bg-surface text-primary border-2 border-primary font-body-sm text-body-sm font-bold hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined text-sm">add</span> เพิ่มฟิลด์ใหม่
+                        </button>
+</div>
+<!-- Fields List Table/List -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b-2 border-border-light">
+<th class="py-sm px-md font-overline text-overline text-text-muted">ชื่อฟิลด์ (Label)</th>
+<th class="py-sm px-md font-overline text-overline text-text-muted">ประเภทข้อมูล (Type)</th>
+<th class="py-sm px-md font-overline text-overline text-text-muted">สถานะ (Status)</th>
+<th class="py-sm px-md font-overline text-overline text-text-muted text-right">จัดการ</th>
+</tr>
+</thead>
+<tbody>
+<!-- Row 1 -->
+<tr class="border-b border-border-light hover:bg-background transition-colors group">
+<td class="py-md px-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-text-muted text-sm">drag_indicator</span>
+<span class="font-body text-body font-bold text-text-main">ข้อมูลพื้นฐาน (Basic Info)</span>
+</div>
+</td>
+<td class="py-md px-md">
+<span class="inline-flex items-center px-2 py-1 rounded bg-surface-container text-text-muted font-code text-code text-[12px]">Group</span>
+</td>
+<td class="py-md px-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-green-100 text-success font-caption text-caption font-bold">จำเป็น (Required)</span>
+</td>
+<td class="py-md px-md text-right">
+<button class="text-text-muted hover:text-primary p-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined">edit</span></button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-border-light hover:bg-background transition-colors group">
+<td class="py-md px-md">
+<div class="flex items-center gap-sm pl-lg">
+<span class="material-symbols-outlined text-text-muted text-sm">short_text</span>
+<span class="font-body text-body text-text-main">ชื่อ-นามสกุล</span>
+</div>
+</td>
+<td class="py-md px-md">
+<span class="inline-flex items-center px-2 py-1 rounded bg-surface-container text-text-muted font-code text-code text-[12px]">Text</span>
+</td>
+<td class="py-md px-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-green-100 text-success font-caption text-caption font-bold">จำเป็น (Required)</span>
+</td>
+<td class="py-md px-md text-right">
+<button class="text-text-muted hover:text-primary p-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined">edit</span></button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-border-light hover:bg-background transition-colors group">
+<td class="py-md px-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-text-muted text-sm">drag_indicator</span>
+<span class="font-body text-body font-bold text-text-main">สัญญาณชีพ (Vital Signs)</span>
+</div>
+</td>
+<td class="py-md px-md">
+<span class="inline-flex items-center px-2 py-1 rounded bg-surface-container text-text-muted font-code text-code text-[12px]">Group</span>
+</td>
+<td class="py-md px-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-highest text-text-muted font-caption text-caption font-bold">เลือกได้ (Optional)</span>
+</td>
+<td class="py-md px-md text-right">
+<button class="text-text-muted hover:text-primary p-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined">edit</span></button>
+<button class="text-text-muted hover:text-error p-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined">delete</span></button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-background transition-colors group">
+<td class="py-md px-md">
+<div class="flex items-center gap-sm pl-lg">
+<span class="material-symbols-outlined text-text-muted text-sm">numbers</span>
+<span class="font-body text-body text-text-main">อัตราการเต้นของหัวใจ (BPM)</span>
+</div>
+</td>
+<td class="py-md px-md">
+<span class="inline-flex items-center px-2 py-1 rounded bg-surface-container text-text-muted font-code text-code text-[12px]">Number</span>
+</td>
+<td class="py-md px-md">
+<span class="inline-flex items-center px-2 py-1 rounded-full bg-surface-container-highest text-text-muted font-caption text-caption font-bold">เลือกได้ (Optional)</span>
+</td>
+<td class="py-md px-md text-right">
+<button class="text-text-muted hover:text-primary p-1 opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined">edit</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</div>
+</main>
+</body></html>

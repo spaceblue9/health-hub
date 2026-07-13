@@ -1,0 +1,411 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;family=Nunito+Sans:wght@400;500;600;700&amp;family=Space+Mono&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "outline-variant": "#d6c0d3",
+                        "surface-container-highest": "#efddeb",
+                        "surface-bright": "#fff7fa",
+                        "success": "#22C55E",
+                        "surface-container-high": "#f5e3f1",
+                        "tertiary-container": "#cea700",
+                        "info": "#3B82F6",
+                        "surface": "#FFFFFF",
+                        "text-main": "#171717",
+                        "secondary-container": "#3fe1fd",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#ffd6fd",
+                        "surface-container-low": "#ffeffb",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#004e5a",
+                        "on-primary-fixed": "#36003e",
+                        "on-surface": "#221822",
+                        "primary-fixed-dim": "#fbabff",
+                        "error": "#EF4444",
+                        "on-primary-fixed-variant": "#7c008e",
+                        "inverse-primary": "#fbabff",
+                        "tertiary-fixed-dim": "#eec200",
+                        "on-primary-container": "#fffbff",
+                        "on-tertiary": "#ffffff",
+                        "border-medium": "#D4D4D4",
+                        "secondary-fixed-dim": "#2fd9f4",
+                        "tertiary-fixed": "#ffe083",
+                        "on-surface-variant": "#524251",
+                        "secondary-fixed": "#a2eeff",
+                        "surface-variant": "#efddeb",
+                        "background": "#FAFAFA",
+                        "on-tertiary-fixed-variant": "#574500",
+                        "warning": "#F59E0B",
+                        "secondary": "#006877",
+                        "on-tertiary-container": "#4e3e00",
+                        "on-error-container": "#93000a",
+                        "primary": "#9e00b5",
+                        "on-tertiary-fixed": "#231b00",
+                        "surface-dim": "#e7d5e3",
+                        "outline": "#847183",
+                        "inverse-surface": "#382d37",
+                        "on-background": "#221822",
+                        "border-light": "#E5E5E5",
+                        "text-muted": "#525252",
+                        "inverse-on-surface": "#feebfa",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#fbe9f7",
+                        "surface-tint": "#a200ba",
+                        "tertiary": "#735c00",
+                        "primary-container": "#c028d7",
+                        "on-secondary-fixed": "#001f25",
+                        "on-secondary-container": "#00616f"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-tablet": "80px",
+                        "section-desktop": "112px",
+                        "xs": "4px",
+                        "base": "8px",
+                        "lg": "24px",
+                        "section-mobile": "56px",
+                        "sm": "8px",
+                        "xl": "32px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "code": ["Space Mono"],
+                        "subhead": ["Plus Jakarta Sans"],
+                        "caption": ["Nunito Sans"],
+                        "body": ["Nunito Sans"],
+                        "headline": ["Plus Jakarta Sans"],
+                        "display": ["Plus Jakarta Sans"],
+                        "body-sm": ["Nunito Sans"],
+                        "body-lg": ["Nunito Sans"],
+                        "overline": ["Nunito Sans"]
+                    },
+                    "fontSize": {
+                        "code": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "subhead": ["26px", { "lineHeight": "1.3", "letterSpacing": "0.005em", "fontWeight": "600" }],
+                        "caption": ["12px", { "lineHeight": "1.4", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "body": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline": ["40px", { "lineHeight": "1.2", "letterSpacing": "0.01em", "fontWeight": "700" }],
+                        "display": ["56px", { "lineHeight": "1.1", "letterSpacing": "0.02em", "fontWeight": "800" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "overline": ["11px", { "lineHeight": "1.2", "letterSpacing": "0.1em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    }catch(_e){}</script></head><body class="bg-background text-on-background font-body text-body min-h-screen flex flex-col">
+
+    <!-- TopNavBar (Mobile Only) -->
+    <nav class="md:hidden flex justify-between items-center px-lg py-sm w-full sticky top-0 z-50 bg-surface dark:bg-background border-b border-border-light dark:border-outline-variant shadow-sm">
+        <div class="font-display text-subhead font-extrabold text-primary dark:text-primary-fixed-dim">Tracking Timeline Anything</div>
+        <div class="flex items-center gap-md">
+            <button class="text-on-surface-variant hover:text-primary transition-colors duration-200">
+                <span class="material-symbols-outlined">notifications</span>
+            </button>
+            <button class="text-on-surface-variant hover:text-primary transition-colors duration-200">
+                <span class="material-symbols-outlined">account_circle</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="flex flex-1 overflow-hidden">
+        
+        <!-- SideNavBar (Desktop Only) -->
+        <aside class="hidden md:flex flex-col h-full p-md gap-sm bg-surface dark:bg-surface-dim border-r border-border-light dark:border-outline-variant shadow-md h-screen w-64 docked left-0 sticky top-0 shrink-0">
+            <div class="flex items-center gap-sm mb-lg px-sm">
+                <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container font-bold">FA</div>
+                <div>
+                    <h2 class="font-display text-subhead font-extrabold text-primary dark:text-primary-fixed-dim leading-none">Health Hub</h2>
+                    <p class="font-caption text-caption text-on-surface-variant">Family Records</p>
+                </div>
+            </div>
+
+            <nav class="flex-1 flex flex-col gap-xs">
+                <a href="#" class="flex items-center gap-sm px-md py-sm text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-xl transition-all duration-200 font-body text-body">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span class="">Dashboard</span>
+                </a>
+                <a href="#" class="flex items-center gap-sm px-md py-sm text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-xl transition-all duration-200 font-body text-body">
+                    <span class="material-symbols-outlined">timeline</span>
+                    <span class="">Timeline</span>
+                </a>
+                <a href="#" class="flex items-center gap-sm px-md py-sm text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-xl transition-all duration-200 font-body text-body">
+                    <span class="material-symbols-outlined">monitor_heart</span>
+                    <span class="">Vitals</span>
+                </a>
+                <a href="#" class="flex items-center gap-sm px-md py-sm text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-xl transition-all duration-200 font-body text-body">
+                    <span class="material-symbols-outlined">attachment</span>
+                    <span class="">Documents</span>
+                </a>
+                <a href="#" class="flex items-center gap-sm px-md py-sm bg-primary-container text-on-primary-container font-bold rounded-xl transition-transform Active: scale-95 font-body text-body">
+                    <span class="material-symbols-outlined">ios_share</span>
+                    <span class="">Sharing</span>
+                </a>
+            </nav>
+
+            <button class="w-full py-sm bg-primary text-on-primary rounded-full font-bold hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm my-md">
+                Add Entry
+            </button>
+
+            <div class="mt-auto flex flex-col gap-xs pt-md border-t border-border-light">
+                <a href="#" class="flex items-center gap-sm px-md py-sm text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-xl transition-all duration-200 font-body text-body">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="">Settings</span>
+                </a>
+                <a href="#" class="flex items-center gap-sm px-md py-sm text-on-surface-variant dark:text-outline-variant hover:bg-surface-container-high dark:hover:bg-surface-container-highest rounded-xl transition-all duration-200 font-body text-body">
+                    <span class="material-symbols-outlined">help</span>
+                    <span class="">Support</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto bg-background p-md md:p-xl w-full">
+            
+            <header class="mb-xl">
+                <h1 class="font-headline text-headline text-text-main font-bold mb-sm">การแบ่งปันและรายงาน</h1>
+                <p class="font-body-lg text-body-lg text-text-muted">สร้างรายงานข้อมูลสุขภาพและจัดการลิงก์สำหรับแบ่งปันให้แพทย์หรือครอบครัว</p>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+                
+                <!-- Generator Panel (Left Side) -->
+                <section class="lg:col-span-4 flex flex-col gap-lg">
+                    
+                    <div class="bg-surface rounded-[16px] border border-border-light p-lg product-hover-card">
+                        <h3 class="font-subhead text-subhead text-text-main mb-md flex items-center gap-sm">
+                            <span class="material-symbols-outlined text-primary">analytics</span>
+                            สร้างรายงานใหม่
+                        </h3>
+                        
+                        <div class="space-y-md">
+                            <div>
+                                <label class="block font-caption text-caption text-text-muted mb-xs uppercase tracking-wider">เลือกช่วงเวลา</label>
+                                <select class="w-full h-[44px] rounded-[12px] border-[1.5px] border-border-medium px-md bg-surface text-text-main tactical-input font-body text-body appearance-none">
+                                    <option>7 วันล่าสุด</option>
+                                    <option>30 วันล่าสุด</option>
+                                    <option>3 เดือนล่าสุด</option>
+                                    <option>กำหนดเอง...</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block font-caption text-caption text-text-muted mb-xs uppercase tracking-wider">หัวข้อที่ต้องการรวม</label>
+                                <div class="space-y-sm">
+                                    <label class="flex items-center gap-sm cursor-pointer">
+                                        <input type="checkbox" checked="" class="rounded-[6px] text-primary focus:ring-primary focus:ring-opacity-50 border-border-medium w-5 h-5">
+                                        <span class="font-body text-body text-text-main">ชีพจรและความดันโลหิต</span>
+                                    </label>
+                                    <label class="flex items-center gap-sm cursor-pointer">
+                                        <input type="checkbox" checked="" class="rounded-[6px] text-primary focus:ring-primary focus:ring-opacity-50 border-border-medium w-5 h-5">
+                                        <span class="font-body text-body text-text-main">ระดับน้ำตาลในเลือด</span>
+                                    </label>
+                                    <label class="flex items-center gap-sm cursor-pointer">
+                                        <input type="checkbox" class="rounded-[6px] text-primary focus:ring-primary focus:ring-opacity-50 border-border-medium w-5 h-5">
+                                        <span class="font-body text-body text-text-main">บันทึกการใช้ยา</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-lg pt-md border-t border-border-light">
+                            <label class="block font-caption text-caption text-text-muted mb-xs uppercase tracking-wider">ตั้งเวลาหมดอายุของลิงก์</label>
+                            <div class="flex flex-wrap gap-sm mb-lg">
+                                <button class="px-md py-xs rounded-full border border-border-medium font-caption text-caption text-text-muted hover:border-secondary hover:text-secondary transition-colors">10 นาที</button>
+                                <button class="px-md py-xs rounded-full border border-primary bg-primary text-on-primary font-caption text-caption transition-colors">24 ชั่วโมง</button>
+                                <button class="px-md py-xs rounded-full border border-border-medium font-caption text-caption text-text-muted hover:border-secondary hover:text-secondary transition-colors">7 วัน</button>
+                                <button class="px-md py-xs rounded-full border border-border-medium font-caption text-caption text-text-muted hover:border-secondary hover:text-secondary transition-colors">ไม่มีวันหมดอายุ</button>
+                            </div>
+
+                            <div class="flex items-center justify-between mb-md px-sm">
+<span class="font-body text-body text-text-main">สร้างเป็น QR Code</span>
+<label class="relative inline-flex items-center cursor-pointer">
+<input type="checkbox" value="" class="sr-only peer">
+<div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div><button class="w-full py-md rounded-full bg-[#c028d7] text-white font-bold font-body-lg text-body-lg hover:bg-[#a200ba] transition-colors shadow-sm flex justify-center items-center gap-sm">
+                                <span class="material-symbols-outlined">link</span>
+                                สร้างลิงก์รายงาน
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Promo/Tips Card -->
+                    <div class="bg-surface-bright rounded-[16px] border border-primary-fixed p-md flex items-start gap-md">
+                        <div class="p-sm bg-primary-fixed rounded-full text-on-primary-fixed shrink-0">
+                            <span class="material-symbols-outlined" data-weight="fill">security</span>
+                        </div>
+                        <div>
+                            <h4 class="font-subhead text-body-lg font-bold text-on-primary-fixed-variant mb-xs">การเข้ารหัสข้อมูล</h4>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant">ทุกลิงก์ที่คุณสร้างถูกเข้ารหัสและสามารถเข้าถึงได้เฉพาะผู้ที่มีลิงก์เท่านั้น คุณสามารถเพิกถอนสิทธิ์ได้ตลอดเวลา</p>
+                        </div>
+                    </div>
+
+                </section>
+
+                <!-- Active Links Panel (Right Side) -->
+                <section class="lg:col-span-8 flex flex-col">
+                    
+                    <div class="bg-surface rounded-[16px] border border-border-light flex-1 overflow-hidden flex flex-col product-hover-card">
+                        <div class="p-lg border-b border-border-light flex justify-between items-center bg-surface-container-lowest">
+                            <h3 class="font-subhead text-subhead text-text-main flex items-center gap-sm">
+                                <span class="material-symbols-outlined text-secondary">share</span>
+                                ลิงก์ที่กำลังใช้งาน
+                            </h3>
+                            <span class="bg-surface-container px-sm py-xs rounded-full font-caption text-caption text-primary font-bold">3 รายการ</span>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left border-collapse">
+                                <thead>
+                                    <tr class="bg-background border-b border-border-light">
+                                        <th class="p-md font-caption text-caption text-text-muted uppercase tracking-wider font-semibold">รายละเอียดรายงาน</th>
+                                        <th class="p-md font-caption text-caption text-text-muted uppercase tracking-wider font-semibold">สร้างเมื่อ</th>
+                                        <th class="p-md font-caption text-caption text-text-muted uppercase tracking-wider font-semibold">หมดอายุใน</th>
+                                        <th class="p-md font-caption text-caption text-text-muted uppercase tracking-wider font-semibold text-right">จัดการ</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-border-light">
+                                    
+                                    <!-- Row 1 -->
+                                    <tr class="hover:bg-surface-container-lowest transition-colors group">
+                                        <td class="p-md">
+                                            <div class="font-body text-body text-text-main font-semibold mb-xs">สรุปสุขภาพ 30 วัน</div>
+                                            <div class="flex gap-xs">
+                                                <span class="px-xs py-[2px] rounded text-[10px] bg-secondary-container text-on-secondary-container font-semibold">ชีพจร</span>
+                                                <span class="px-xs py-[2px] rounded text-[10px] bg-secondary-container text-on-secondary-container font-semibold">น้ำตาล</span>
+                                            </div>
+                                        </td>
+                                        <td class="p-md font-body-sm text-body-sm text-text-muted">วันนี้, 09:41 น.</td>
+                                        <td class="p-md">
+                                            <span class="inline-flex items-center gap-xs px-sm py-xs rounded-full bg-success/10 text-success font-caption text-caption font-bold">
+                                                <span class="material-symbols-outlined text-[14px]">timer</span>
+                                                23 ชม. 15 นาที
+                                            </span>
+                                        </td>
+                                        <td class="p-md text-right">
+                                            <div class="flex items-center justify-end gap-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <button class="p-sm text-secondary hover:bg-secondary/10 rounded-full transition-colors tooltip-trigger relative" aria-label="คัดลอกลิงก์">
+                                                    <span class="material-symbols-outlined">content_copy</span>
+                                                </button>
+                                                <button class="p-sm text-error hover:bg-error/10 rounded-full transition-colors tooltip-trigger relative" aria-label="เพิกถอน">
+                                                    <span class="material-symbols-outlined">block</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Row 2 -->
+                                    <tr class="hover:bg-surface-container-lowest transition-colors group">
+                                        <td class="p-md">
+                                            <div class="font-body text-body text-text-main font-semibold mb-xs">รายการยาและนัดหมาย</div>
+                                            <div class="flex gap-xs">
+                                                <span class="px-xs py-[2px] rounded text-[10px] bg-secondary-container text-on-secondary-container font-semibold">ยา</span>
+                                            </div>
+                                        </td>
+                                        <td class="p-md font-body-sm text-body-sm text-text-muted">เมื่อวาน, 14:20 น.</td>
+                                        <td class="p-md">
+                                            <span class="inline-flex items-center gap-xs px-sm py-xs rounded-full bg-warning/10 text-warning font-caption text-caption font-bold">
+                                                <span class="material-symbols-outlined text-[14px]">timer</span>
+                                                5 วัน
+                                            </span>
+                                        </td>
+                                        <td class="p-md text-right">
+                                            <div class="flex items-center justify-end gap-sm opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <button class="p-sm text-secondary hover:bg-secondary/10 rounded-full transition-colors" aria-label="คัดลอกลิงก์">
+                                                    <span class="material-symbols-outlined">content_copy</span>
+                                                </button>
+                                                <button class="p-sm text-error hover:bg-error/10 rounded-full transition-colors" aria-label="เพิกถอน">
+                                                    <span class="material-symbols-outlined">block</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <!-- Row 3 -->
+                                    <tr class="hover:bg-surface-container-lowest transition-colors group">
+                                        <td class="p-md">
+                                            <div class="font-body text-body text-text-main font-semibold mb-xs">ข้อมูลด่วนสำหรับฉุกเฉิน (QR)</div>
+                                            <div class="flex gap-xs">
+                                                <span class="px-xs py-[2px] rounded text-[10px] bg-tertiary-container text-on-tertiary-container font-semibold">ทั้งหมด</span>
+                                            </div>
+                                        </td>
+                                        <td class="p-md font-body-sm text-body-sm text-text-muted">12 พ.ค. 2024</td>
+                                        <td class="p-md">
+                                            <span class="inline-flex items-center gap-xs px-sm py-xs rounded-full bg-surface-variant text-on-surface-variant font-caption text-caption font-bold">
+                                                <span class="material-symbols-outlined text-[14px]">all_inclusive</span>
+                                                ไม่มีวันหมดอายุ
+                                            </span>
+                                        </td>
+                                        <td class="p-md text-right">
+                                            <div class="flex items-center justify-end gap-sm opacity-0 group-hover:opacity-100 transition-opacity"><button aria-label="แสดง QR Code" class="p-sm text-primary hover:bg-primary/10 rounded-full transition-colors">
+<span class="material-symbols-outlined">qr_code_2</span>
+</button>
+                                                <button class="p-sm text-secondary hover:bg-secondary/10 rounded-full transition-colors" aria-label="คัดลอกลิงก์">
+                                                    <span class="material-symbols-outlined">content_copy</span>
+                                                </button>
+                                                <button class="p-sm text-error hover:bg-error/10 rounded-full transition-colors" aria-label="เพิกถอน">
+                                                    <span class="material-symbols-outlined">block</span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Empty State Example (Hidden by default, shown here for structural completeness if list is empty) -->
+                        <!-- 
+                        <div class="flex flex-col items-center justify-center p-xl text-center">
+                            <div class="w-16 h-16 bg-surface-container-high rounded-full flex items-center justify-center mb-md text-outline">
+                                <span class="material-symbols-outlined text-->
+
+                    <div class="p-lg border-t border-border-light bg-surface-container-low">
+<div class="flex flex-col md:flex-row items-center gap-lg">
+<div class="bg-white p-md rounded-xl border-2 border-primary shadow-sm shrink-0">
+<div class="w-32 h-32 flex items-center justify-center bg-white">
+<span class="material-symbols-outlined text-[100px] text-primary">qr_code_2</span>
+</div>
+</div>
+<div class="flex-1 text-center md:text-left">
+<h4 class="font-subhead text-body-lg font-bold text-text-main mb-xs">ตัวอย่าง QR Code</h4>
+<p class="font-body-sm text-body-sm text-text-muted mb-md">แสดงรหัสนี้เพื่อให้แพทย์หรือเจ้าหน้าที่สแกนเพื่อเข้าถึงข้อมูลฉุกเฉินของคุณได้ทันที</p>
+<div class="flex flex-wrap justify-center md:justify-start gap-sm">
+<button class="px-md py-xs rounded-full bg-primary text-on-primary font-caption text-caption font-bold flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">download</span>
+ดาวน์โหลดภาพ
+</button>
+<button class="px-md py-xs rounded-full border border-primary text-primary font-caption text-caption font-bold flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]">print</span>
+พิมพ์
+</button>
+</div>
+</div>
+</div>
+</div></div>
+
+                </section>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Minimal Tooltip Script for interaction demonstration -->
+    <script class="">
+        // Simple script to show buttons on touch devices where hover isn't reliable
+        document.addEventListener('DOMContentLoaded', () => {
+            const rows = document.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                row.addEventListener('click', () => {
+                    // Reset all other rows
+                    rows.forEach(r => {
+                        const actions = r.querySelector('td:last-child div</script></body></html>

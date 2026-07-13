@@ -1,0 +1,10 @@
+{
+  "bundleVersion": 1,
+  "exportedAt": "2026-07-10T07:19:20.365Z",
+  "projectName": "Tacking Timeline Anything",
+  "projectType": "web-app",
+  "includes": {
+    "teamTemplate": false,
+    "baselineSnapshots": 1
+  }
+}
