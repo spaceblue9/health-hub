@@ -441,7 +441,7 @@ export default function Patient({ session }) {
                 )}
              </div>
              <div className="flex-1">
-                <h1 className="font-headline text-subhead md:text-headline font-bold text-on-background leading-tight">{patient.name}</h1>
+                <h1 className="font-headline text-2xl sm:text-3xl md:text-headline font-bold text-on-background leading-tight break-words">{patient.name}</h1>
                 <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2 text-sm text-on-surface-variant font-body">
                   <span><strong className="text-on-background">อายุ:</strong> {patient.dob ? new Date().getFullYear() - new Date(patient.dob).getFullYear() : '-'} ปี</span>
                   <span><strong className="text-on-background">น้ำหนัก:</strong> {patient.weight || '-'} กก.</span>

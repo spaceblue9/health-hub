@@ -144,8 +144,8 @@ export default function Dashboard({ session }) {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-sm mb-lg">
         <div>
-          <h1 className="font-headline text-headline font-bold text-on-background">ภาพรวมครอบครัว</h1>
-          <p className="font-body-lg text-body-lg text-text-muted mt-xs">ติดตามสุขภาพและกิจกรรมของทุกคนในบ้าน</p>
+          <h1 className="font-headline text-3xl sm:text-4xl md:text-headline font-bold text-on-background">ภาพรวมครอบครัว</h1>
+          <p className="font-body-lg text-base sm:text-body-lg text-text-muted mt-xs">ติดตามสุขภาพและกิจกรรมของทุกคนในบ้าน</p>
           <p className="font-caption text-caption text-brand-fuchsia mt-1">ใช้โควต้า: {patients.length} / {profile?.max_profiles || 3}</p>
         </div>
         {patients.length < (profile?.max_profiles || 3) && (
@@ -217,7 +217,7 @@ export default function Dashboard({ session }) {
                     )}
                   </div>
                   <div>
-                    <h2 className="font-subhead text-subhead font-semibold text-on-background leading-tight">{patient.name}</h2>
+                    <h2 className="font-headline text-xl sm:text-title-lg font-bold text-on-surface line-clamp-1 group-hover:text-primary transition-colors">{patient.name}</h2>
                   </div>
                 </div>
                 <button className="text-text-muted hover:text-primary transition-colors">
