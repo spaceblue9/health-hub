@@ -33,3 +33,11 @@
   - [x] Modify `attachments` schema to allow attachments without `event_id` if they belong to a profile.
   - [x] Add "Common Documents" upload section in `src/pages/Patient.jsx`.
   - [x] Implement Image Modal to view profile pictures in full size.
+
+### T-005 Hide Specific Events from Share Links
+- Status: `[x]` Done
+- Detail:
+  - [x] Add `is_hidden_from_share` column to `timeline_events` table.
+  - [x] Update event creation and editing UI in `Patient.jsx` to toggle `is_hidden_from_share`.
+  - [x] Display a badge on hidden events in `Patient.jsx`.
+  - [x] Update `Share.jsx` data fetching to exclude hidden events.

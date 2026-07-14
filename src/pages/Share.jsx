@@ -44,6 +44,7 @@ export default function Share() {
         .from('timeline_events')
         .select(`*, attachments(*)`)
         .eq('patient_id', linkData.patient_id)
+        .eq('is_hidden_from_share', false)
         .order('event_date', { ascending: false });
 
       if (linkData.start_date) {

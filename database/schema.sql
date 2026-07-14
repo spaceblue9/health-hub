@@ -39,6 +39,7 @@ CREATE TABLE timeline_events (
     card_color TEXT DEFAULT '#fef7ff',
     text_color TEXT DEFAULT '#832890',
     icon TEXT DEFAULT 'medical_information',
+    is_hidden_from_share BOOLEAN DEFAULT false,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW())
 );
 

@@ -49,12 +49,13 @@ export default function Patient({ session }) {
   const [cardColor, setCardColor] = useState('#fef7ff');
   const [textColor, setTextColor] = useState('#832890');
   const [icon, setIcon] = useState('medical_information');
+  const [isHiddenFromShare, setIsHiddenFromShare] = useState(false);
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
 
   // Inline Edit Event State
   const [editingEventId, setEditingEventId] = useState(null);
-  const [editEventData, setEditEventData] = useState({ title: '', description: '', event_date: '', card_color: '#fef7ff', text_color: '#832890', icon: 'medical_information' });
+  const [editEventData, setEditEventData] = useState({ title: '', description: '', event_date: '', card_color: '#fef7ff', text_color: '#832890', icon: 'medical_information', is_hidden_from_share: false });
   const [editFile, setEditFile] = useState(null);
   
   // Patient Profile Attachments
@@ -156,7 +157,7 @@ export default function Patient({ session }) {
       // 1. Create Event
       const { data: eventData, error: eventError } = await supabase
         .from('timeline_events')
-        .insert([{ patient_id: id, title, description, event_date: eventDate, card_color: cardColor, text_color: textColor, icon }])
+        .insert([{ patient_id: id, title, description, event_date: eventDate, card_color: cardColor, text_color: textColor, icon, is_hidden_from_share: isHiddenFromShare }])
         .select()
         .single();
 
@@ -195,6 +196,7 @@ export default function Patient({ session }) {
       setCardColor('#fef7ff');
       setTextColor('#832890');
       setIcon('medical_information');
+      setIsHiddenFromShare(false);
       setFile(null);
     } catch (error) {
       alert(error.message);
@@ -249,7 +251,8 @@ export default function Patient({ session }) {
       event_date: event.event_date.split('T')[0], // Format for input type="date"
       card_color: event.card_color || '#fef7ff',
       text_color: event.text_color || '#832890',
-      icon: event.icon || 'medical_information'
+      icon: event.icon || 'medical_information',
+      is_hidden_from_share: event.is_hidden_from_share || false
     });
     setEditFile(null);
   };
@@ -265,7 +268,8 @@ export default function Patient({ session }) {
           event_date: editEventData.event_date,
           card_color: editEventData.card_color,
           text_color: editEventData.text_color,
-          icon: editEventData.icon
+          icon: editEventData.icon,
+          is_hidden_from_share: editEventData.is_hidden_from_share
         })
         .eq('id', editingEventId);
 
@@ -764,11 +768,23 @@ export default function Patient({ session }) {
               </div>
             </div>
           </div>
-          <div className="mt-md flex justify-end gap-3">
-            <button type="button" onClick={() => setShowEventForm(false)} className="rounded-full border border-border-medium bg-surface px-6 py-2 text-sm font-bold text-on-surface hover:bg-surface-container-high transition-colors">ยกเลิก</button>
-            <button type="submit" disabled={uploading} className="rounded-full bg-brand-fuchsia px-6 py-2 text-sm font-bold text-on-primary shadow-sm hover:bg-primary transition-colors disabled:opacity-50">
-              {uploading ? 'กำลังบันทึก...' : 'บันทึก'}
-            </button>
+          <div className="mt-md flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <label className="flex items-center gap-2 cursor-pointer text-sm font-bold text-on-surface">
+              <input 
+                type="checkbox" 
+                checked={isHiddenFromShare} 
+                onChange={(e) => setIsHiddenFromShare(e.target.checked)}
+                className="w-4 h-4 rounded text-brand-fuchsia focus:ring-brand-fuchsia"
+              />
+              <span className="material-symbols-outlined text-[20px] text-text-muted">visibility_off</span>
+              ซ่อนเหตุการณ์นี้จากลิงก์แชร์
+            </label>
+            <div className="flex gap-3 w-full sm:w-auto justify-end">
+              <button type="button" onClick={() => setShowEventForm(false)} className="rounded-full border border-border-medium bg-surface px-6 py-2 text-sm font-bold text-on-surface hover:bg-surface-container-high transition-colors">ยกเลิก</button>
+              <button type="submit" disabled={uploading} className="rounded-full bg-brand-fuchsia px-6 py-2 text-sm font-bold text-on-primary shadow-sm hover:bg-primary transition-colors disabled:opacity-50">
+                {uploading ? 'กำลังบันทึก...' : 'บันทึก'}
+              </button>
+            </div>
           </div>
         </form>
       )}
@@ -993,14 +1009,33 @@ export default function Patient({ session }) {
                             </div>
                           </div>
 
-                          <div className="flex justify-end gap-2 pt-2">
-                            <button type="button" onClick={() => setEditingEventId(null)} className="px-4 py-2 rounded-full border border-border-medium text-sm font-bold hover:bg-surface-container-high transition-colors">ยกเลิก</button>
-                            <button type="submit" className="px-4 py-2 rounded-full bg-brand-fuchsia text-white text-sm font-bold shadow-sm hover:bg-primary transition-colors">บันทึก</button>
+                          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pt-2">
+                            <label className="flex items-center gap-2 cursor-pointer text-sm font-bold text-on-surface">
+                              <input 
+                                type="checkbox" 
+                                checked={editEventData.is_hidden_from_share} 
+                                onChange={(e) => setEditEventData({...editEventData, is_hidden_from_share: e.target.checked})}
+                                className="w-4 h-4 rounded text-brand-fuchsia focus:ring-brand-fuchsia"
+                              />
+                              <span className="material-symbols-outlined text-[20px] text-text-muted">visibility_off</span>
+                              ซ่อนเหตุการณ์นี้จากลิงก์แชร์
+                            </label>
+                            <div className="flex gap-2 w-full sm:w-auto justify-end">
+                              <button type="button" onClick={() => setEditingEventId(null)} className="px-4 py-2 rounded-full border border-border-medium text-sm font-bold hover:bg-surface-container-high transition-colors">ยกเลิก</button>
+                              <button type="submit" className="px-4 py-2 rounded-full bg-brand-fuchsia text-white text-sm font-bold shadow-sm hover:bg-primary transition-colors">บันทึก</button>
+                            </div>
                           </div>
                         </form>
                       ) : (
                         <>
-                          <h4 className="font-subhead text-xl font-bold text-on-background mb-sm">{event.title}</h4>
+                          <div className="flex items-center gap-2 mb-sm">
+                            <h4 className="font-subhead text-xl font-bold text-on-background">{event.title}</h4>
+                            {event.is_hidden_from_share && (
+                              <span className="flex items-center gap-1 text-xs font-bold text-text-muted bg-surface-container-high px-2 py-1 rounded-md" title="เหตุการณ์นี้ถูกซ่อนในลิงก์แชร์">
+                                <span className="material-symbols-outlined text-[14px]">visibility_off</span> ซ่อนอยู่
+                              </span>
+                            )}
+                          </div>
                           {event.description && (
                             <p className="font-body text-body text-on-surface-variant mb-md whitespace-pre-wrap">{event.description}</p>
                           )}
