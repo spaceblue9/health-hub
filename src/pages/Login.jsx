@@ -23,7 +23,13 @@ export default function Login({ session }) {
       let error;
       if (loginMode === 'password') {
         if (isSignUp) {
-          const res = await supabase.auth.signUp({ email, password });
+          const res = await supabase.auth.signUp({ 
+            email, 
+            password,
+            options: {
+              emailRedirectTo: window.location.origin,
+            }
+          });
           error = res.error;
           if (!error) {
             // If email is already taken, Supabase returns fake user but identities array is empty
