@@ -24,5 +24,12 @@
 - Status: `[x]` Done
 - Detail:
   - [x] Check that the implementation satisfies: admin เป็นคน Appove คนขอใช้ระบบ และกำหนดสิทธิ ในการสร้าง User Profile ได้ , สิทธิ ในการแชร์เอกสาร, สิทธิในการออก Report , กำหนดได้ว่า  แต่ละ user สามารถสร้างได้กี่ profile
-
   - [x] user สามารถ สร้าง profile ของคนในครอบครัวได้ ตามที่ admin กำหนด เช่น user1 สร้างได้ 3 profile คือ profile ของพ่อ, profile ของแม่ และ Profile ของตนเอง สามารถออกรายงานเป็น Timeline กำหนดช่วงวัน สามารถแชร์ให้คนอื่นที่ได้ link ดูได้โดยไม่ต้องมี password แต่มีการกำหนด Exprie link เช่นสร้าง link ให้ 10 นาที หรือ แชร์ 7 วัน
+
+### T-004 Patient Attachments and UI Enhancements
+- Status: `[x]` Done
+- Detail:
+  - [x] Create SQL migration script to add `patient_id` to `attachments` table.
+  - [x] Modify `attachments` schema to allow attachments without `event_id` if they belong to a profile.
+  - [x] Add "Common Documents" upload section in `src/pages/Patient.jsx`.
+  - [x] Implement Image Modal to view profile pictures in full size.

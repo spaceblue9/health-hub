@@ -19,6 +19,7 @@ export default function Patient({ session }) {
   const [patient, setPatient] = useState(null);
   const [profile, setProfile] = useState(null);
   const [events, setEvents] = useState([]);
+  const [patientAttachments, setPatientAttachments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showEventForm, setShowEventForm] = useState(false);
   const [showShareForm, setShowShareForm] = useState(false);
@@ -55,6 +56,11 @@ export default function Patient({ session }) {
   const [editingEventId, setEditingEventId] = useState(null);
   const [editEventData, setEditEventData] = useState({ title: '', description: '', event_date: '', card_color: '#fef7ff', text_color: '#832890', icon: 'medical_information' });
   const [editFile, setEditFile] = useState(null);
+  
+  // Patient Profile Attachments
+  const [selectedImageModal, setSelectedImageModal] = useState(null);
+  const [uploadingPatientFile, setUploadingPatientFile] = useState(false);
+  const [patientFile, setPatientFile] = useState(null);
 
   useEffect(() => {
     fetchData();
@@ -93,10 +99,53 @@ export default function Patient({ session }) {
         .order('event_date', { ascending: false });
         
       setEvents(eventsData || []);
+
+      const { data: pAttachmentsData } = await supabase
+        .from('attachments')
+        .select('*')
+        .eq('patient_id', id)
+        .is('event_id', null)
+        .order('created_at', { ascending: false });
+      setPatientAttachments(pAttachmentsData || []);
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleUploadPatientAttachment = async (e) => {
+    e.preventDefault();
+    if (!patientFile) return;
+    setUploadingPatientFile(true);
+    try {
+      const fileExt = patientFile.name.split('.').pop();
+      const filePath = `${session.user.id}/patient_${id}_${Date.now()}.${fileExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('medical_attachments')
+        .upload(filePath, patientFile);
+
+      if (uploadError) throw uploadError;
+
+      const { data: publicUrlData } = supabase.storage
+        .from('medical_attachments')
+        .getPublicUrl(filePath);
+
+      const { error: attachError } = await supabase.from('attachments').insert([{
+        patient_id: id,
+        file_name: patientFile.name,
+        file_url: publicUrlData.publicUrl,
+        file_type: patientFile.type
+      }]);
+      if (attachError) throw attachError;
+      
+      setPatientFile(null);
+      await fetchData();
+    } catch (error) {
+      alert('Error uploading document: ' + error.message);
+    } finally {
+      setUploadingPatientFile(false);
     }
   };
 
@@ -307,6 +356,7 @@ export default function Patient({ session }) {
   const handleDeletePatient = async () => {
     if (!window.confirm('คุณต้องการลบโปรไฟล์นี้อย่างถาวรใช่หรือไม่? ข้อมูลประวัติและไฟล์แนบทั้งหมดจะถูกลบและไม่สามารถกู้คืนได้')) return;
     try {
+      // 1. Delete timeline event attachments
       const { data: events } = await supabase.from('timeline_events').select('id').eq('patient_id', id);
       const eventIds = events ? events.map(e => e.id) : [];
 
@@ -320,6 +370,18 @@ export default function Patient({ session }) {
           if (paths.length > 0) {
             await supabase.storage.from('medical_attachments').remove(paths);
           }
+        }
+      }
+
+      // 2. Delete common document attachments
+      const { data: commonDocs } = await supabase.from('attachments').select('file_url').eq('patient_id', id).is('event_id', null);
+      if (commonDocs && commonDocs.length > 0) {
+        const paths = commonDocs.map(a => {
+          const parts = a.file_url.split('medical_attachments/');
+          return parts.length > 1 ? parts[1] : null;
+        }).filter(Boolean);
+        if (paths.length > 0) {
+          await supabase.storage.from('medical_attachments').remove(paths);
         }
       }
 
@@ -435,7 +497,12 @@ export default function Patient({ session }) {
           <div className="flex items-center gap-md">
              <div className="w-28 h-28 md:w-36 md:h-36 rounded-3xl bg-primary-container text-primary border-4 border-primary-container flex items-center justify-center font-display text-5xl md:text-6xl font-bold shadow-md shrink-0 overflow-hidden">
                 {patient.profile_picture_url ? (
-                  <img src={patient.profile_picture_url} alt={patient.name} className="w-full h-full object-cover" />
+                  <img 
+                    src={patient.profile_picture_url} 
+                    alt={patient.name} 
+                    className="w-full h-full object-cover cursor-pointer hover:opacity-80 transition-opacity" 
+                    onClick={() => setSelectedImageModal(patient.profile_picture_url)}
+                  />
                 ) : (
                   patient.name.charAt(0)
                 )}
@@ -705,6 +772,41 @@ export default function Patient({ session }) {
           </div>
         </form>
       )}
+
+      {/* Patient Attachments Section (Common Documents) */}
+      <div className="bg-surface rounded-2xl md:rounded-[24px] border border-border-light p-3 md:p-xl shadow-sm mt-lg w-full no-print overflow-hidden">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-md mb-md">
+          <h3 className="text-lg font-subhead font-bold text-on-background flex items-center gap-xs">
+            <span className="material-symbols-outlined text-primary">folder_open</span> เอกสารประจำตัว (Common Documents)
+          </h3>
+          <form onSubmit={handleUploadPatientAttachment} className="flex gap-2 w-full sm:w-auto">
+            <input type="file" required onChange={e => setPatientFile(e.target.files[0])} className="w-full sm:w-auto text-xs text-text-muted file:mr-2 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:font-semibold file:bg-primary-container file:text-primary hover:file:bg-primary hover:file:text-white transition-colors" />
+            <button type="submit" disabled={uploadingPatientFile || !patientFile} className="rounded-full bg-brand-fuchsia px-4 py-1.5 text-xs font-bold text-on-primary shadow-sm hover:bg-primary transition-colors disabled:opacity-50 shrink-0">
+              {uploadingPatientFile ? 'กำลังอัปโหลด...' : 'อัปโหลด'}
+            </button>
+          </form>
+        </div>
+        
+        {patientAttachments.length === 0 ? (
+          <p className="text-sm text-text-muted italic">ยังไม่มีเอกสารแนบ</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-md">
+            {patientAttachments.map(file => (
+              <div key={file.id} className="flex items-center justify-between p-3 border border-border-light rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-colors shadow-sm">
+                <a href={file.file_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 flex-1 min-w-0 hover:text-brand-fuchsia group">
+                  <span className="material-symbols-outlined text-text-muted group-hover:text-brand-fuchsia text-[20px]">
+                    {file.file_type?.startsWith('image/') ? 'image' : 'description'}
+                  </span>
+                  <span className="text-sm font-medium truncate">{file.file_name || 'เอกสาร'}</span>
+                </a>
+                <button onClick={() => handleDeleteAttachment(file.id, file.file_url)} className="text-text-muted hover:text-error transition-colors p-1 shrink-0 ml-2" title="ลบ">
+                  <span className="material-symbols-outlined text-[18px]">delete</span>
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* Timeline Section */}
       <div className="bg-surface rounded-2xl md:rounded-[24px] border border-border-light p-3 md:p-xl shadow-sm mt-lg w-full overflow-hidden">
@@ -1006,6 +1108,31 @@ export default function Patient({ session }) {
               )}
             </div>
             
+          </div>
+        </div>
+      )}
+
+
+
+      {/* Image Modal */}
+      {selectedImageModal && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 animate-in fade-in duration-200" 
+          onClick={() => setSelectedImageModal(null)}
+        >
+          <div className="relative max-w-4xl w-full max-h-[90vh] flex justify-center">
+            <button 
+              className="absolute -top-12 right-0 md:-right-12 text-white hover:text-brand-fuchsia transition-colors" 
+              onClick={() => setSelectedImageModal(null)}
+            >
+              <span className="material-symbols-outlined text-4xl">close</span>
+            </button>
+            <img 
+              src={selectedImageModal} 
+              alt="Full screen" 
+              className="max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl" 
+              onClick={e => e.stopPropagation()} 
+            />
           </div>
         </div>
       )}

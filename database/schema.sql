@@ -48,9 +48,15 @@ ALTER TABLE timeline_events ENABLE ROW LEVEL SECURITY;
 CREATE TABLE attachments (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     event_id UUID REFERENCES timeline_events(id) ON DELETE CASCADE,
+    patient_id UUID REFERENCES patients(id) ON DELETE CASCADE,
+    file_name TEXT,
     file_url TEXT NOT NULL,
     file_type TEXT,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW())
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()),
+    CONSTRAINT check_attachment_owner CHECK (
+        (event_id IS NOT NULL AND patient_id IS NULL) OR 
+        (patient_id IS NOT NULL AND event_id IS NULL)
+    )
 );
 
 ALTER TABLE attachments ENABLE ROW LEVEL SECURITY;
