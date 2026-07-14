@@ -137,7 +137,8 @@ export default function Patient({ session }) {
         patient_id: id,
         file_name: patientFile.name,
         file_url: publicUrlData.publicUrl,
-        file_type: patientFile.type
+        file_type: patientFile.type,
+        file_size_bytes: patientFile.size
       }]);
       if (attachError) throw attachError;
       
@@ -183,7 +184,8 @@ export default function Patient({ session }) {
           event_id: eventData.id,
           file_name: file.name,
           file_url: publicUrlData.publicUrl,
-          file_type: file.type
+          file_type: file.type,
+          file_size_bytes: file.size
         }]);
         if (attachError) throw attachError;
       }
@@ -294,7 +296,8 @@ export default function Patient({ session }) {
           event_id: editingEventId,
           file_name: editFile.name,
           file_url: publicUrlData.publicUrl,
-          file_type: editFile.type
+          file_type: editFile.type,
+          file_size_bytes: editFile.size
         }]);
         if (attachError) throw attachError;
       }
@@ -889,13 +892,13 @@ export default function Patient({ session }) {
             {/* Vertical Timeline Line */}
             <div className="absolute top-4 bottom-4 left-[21px] md:left-[29px] w-0.5 bg-border-light"></div>
             
-            <div className="space-y-xl">
+            <div className="space-y-xl print:block">
               {events.filter(event => {
                 if (filterStartDate && new Date(event.event_date) < new Date(filterStartDate)) return false;
                 if (filterEndDate && new Date(event.event_date) > new Date(filterEndDate + 'T23:59:59')) return false;
                 return true;
               }).map((event, index) => (
-                <div key={event.id} className="relative flex gap-md md:gap-xl items-start group">
+                <div key={event.id} className={`relative flex gap-md md:gap-xl items-start group print:break-inside-avoid ${event.is_hidden_from_share ? 'print:hidden' : ''}`}>
                   {/* Timeline Dot */}
                   <div className="w-10 h-10 md:w-12 md:h-12 rounded-full text-white flex items-center justify-center shrink-0 z-10 border-4 border-surface shadow-md mt-4" style={{ backgroundColor: event.text_color || '#c026d3' }}>
                     <span className="material-symbols-outlined text-[20px] md:text-[24px]">{event.icon || 'medical_information'}</span>

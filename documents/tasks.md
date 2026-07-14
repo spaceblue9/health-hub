@@ -41,3 +41,11 @@
   - [x] Update event creation and editing UI in `Patient.jsx` to toggle `is_hidden_from_share`.
   - [x] Display a badge on hidden events in `Patient.jsx`.
   - [x] Update `Share.jsx` data fetching to exclude hidden events.
+
+### T-006 Admin Usage Dashboard
+- Status: `[x]` Done
+- Detail:
+  - [x] Add `file_size_bytes` to `attachments` table.
+  - [x] Create RPC `get_admin_usage_stats` to count items and calculate storage usage per user.
+  - [x] Update `Patient.jsx` to store file sizes on upload.
+  - [x] Add Usage Dashboard tab to `Admin.jsx`.

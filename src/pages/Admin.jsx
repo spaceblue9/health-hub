@@ -5,7 +5,12 @@ import { supabase } from '../lib/supabase';
 export default function Admin() {
   const { profile } = useOutletContext();
   const [profiles, setProfiles] = useState([]);
+  const [usageStats, setUsageStats] = useState([]);
+  const [usageError, setUsageError] = useState(null);
+  const [activeTab, setActiveTab] = useState('users');
   const [loading, setLoading] = useState(true);
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [syncProgress, setSyncProgress] = useState({ current: 0, total: 0 });
 
   if (profile?.role !== 'admin') {
     return <Navigate to="/" replace />;
@@ -13,6 +18,7 @@ export default function Admin() {
 
   useEffect(() => {
     fetchProfiles();
+    fetchUsageStats();
   }, []);
 
   const fetchProfiles = async () => {
@@ -24,6 +30,64 @@ export default function Admin() {
       console.error('Error fetching profiles:', error.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchUsageStats = async () => {
+    try {
+      const { data, error } = await supabase.rpc('get_admin_usage_stats');
+      if (error) throw error;
+      setUsageStats(data || []);
+      setUsageError(null);
+    } catch (error) {
+      console.error('Error fetching usage stats:', error.message);
+      setUsageError(error.message);
+    }
+  };
+
+  const handleSyncOldFiles = async () => {
+    if (!window.confirm('ระบบจะตรวจสอบไฟล์ที่ขนาดเป็น 0 และทำการดึงข้อมูลขนาดไฟล์ใหม่ ซึ่งอาจใช้เวลาสักครู่ คุณต้องการดำเนินการต่อหรือไม่?')) return;
+    
+    setIsSyncing(true);
+    setSyncProgress({ current: 0, total: 0 });
+    
+    try {
+      const { data: attachments, error: fetchError } = await supabase.rpc('admin_get_attachments_missing_size');
+      if (fetchError) throw fetchError;
+      
+      if (!attachments || attachments.length === 0) {
+        alert('ไม่พบไฟล์ที่ต้องซิงค์ขนาดข้อมูลครับ ทุกไฟล์มีข้อมูลขนาดครบถ้วนแล้ว');
+        setIsSyncing(false);
+        return;
+      }
+
+      setSyncProgress({ current: 0, total: attachments.length });
+
+      let successCount = 0;
+      for (let i = 0; i < attachments.length; i++) {
+        const att = attachments[i];
+        try {
+          const response = await fetch(att.file_url, { method: 'HEAD' });
+          if (response.ok) {
+            const size = parseInt(response.headers.get('content-length') || '0', 10);
+            if (size > 0) {
+              await supabase.rpc('admin_update_attachment_size', { attachment_id: att.id, new_size: size });
+              successCount++;
+            }
+          }
+        } catch (err) {
+          console.error(`Failed to get size for ${att.id}:`, err);
+        }
+        setSyncProgress({ current: i + 1, total: attachments.length });
+      }
+
+      alert(`ซิงค์ข้อมูลสำเร็จ จำนวน ${successCount} ไฟล์ จากทั้งหมด ${attachments.length} ไฟล์ที่ตรวจสอบ`);
+      await fetchUsageStats();
+    } catch (error) {
+      console.error('Error syncing files:', error);
+      alert('เกิดข้อผิดพลาดในการซิงค์: ' + error.message);
+    } finally {
+      setIsSyncing(false);
     }
   };
 
@@ -95,7 +159,23 @@ export default function Admin() {
         </div>
       </div>
 
-      <div className="bg-surface border border-border-light shadow-sm rounded-2xl overflow-hidden">
+      <div className="flex gap-4 border-b border-border-light mb-lg">
+        <button 
+          onClick={() => setActiveTab('users')}
+          className={`py-2 px-4 font-bold border-b-2 transition-colors ${activeTab === 'users' ? 'border-primary text-primary' : 'border-transparent text-text-muted hover:text-on-surface'}`}
+        >
+          จัดการผู้ใช้งาน
+        </button>
+        <button 
+          onClick={() => setActiveTab('usage')}
+          className={`py-2 px-4 font-bold border-b-2 transition-colors ${activeTab === 'usage' ? 'border-primary text-primary' : 'border-transparent text-text-muted hover:text-on-surface'}`}
+        >
+          ข้อมูลการใช้งานระบบ
+        </button>
+      </div>
+
+      {activeTab === 'users' && (
+        <div className="bg-surface border border-border-light shadow-sm rounded-2xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm font-body text-on-surface">
             <thead className="bg-surface-container-low text-on-surface-variant font-subhead uppercase text-xs border-b border-border-light">
@@ -116,7 +196,7 @@ export default function Admin() {
                     <div className="font-code text-[10px] text-text-muted truncate max-w-[150px]" title={p.id}>{p.id}</div>
                   </td>
                   <td className="px-6 py-4">
-                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${p.role === 'admin' ? 'bg-primary-container text-primary border border-primary-container' : 'bg-surface-container-high text-on-surface-variant'}`}>
+                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold ${p.role === 'admin' ? 'bg-primary-container text-on-primary-container border border-primary-container' : 'bg-surface-container-high text-on-surface-variant'}`}>
                       {p.role}
                     </span>
                   </td>
@@ -191,6 +271,67 @@ export default function Admin() {
           <div className="p-12 text-center text-text-muted">ไม่พบข้อมูลผู้ใช้งาน</div>
         )}
       </div>
+      )}
+
+      {activeTab === 'usage' && (
+        <div className="space-y-4 animate-in fade-in slide-in-from-bottom-4">
+          <div className="flex justify-end items-center gap-4">
+            {isSyncing && (
+              <span className="text-sm font-bold text-primary">
+                กำลังซิงค์... {syncProgress.current} / {syncProgress.total}
+              </span>
+            )}
+            <button
+              onClick={handleSyncOldFiles}
+              disabled={isSyncing}
+              className="bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant font-bold py-2 px-4 rounded-xl transition-colors flex items-center gap-2 disabled:opacity-50"
+            >
+              <span className={`material-symbols-outlined text-[20px] ${isSyncing ? 'animate-spin' : ''}`}>sync</span>
+              ซิงค์ขนาดไฟล์เก่า
+            </button>
+          </div>
+          <div className="bg-surface border border-border-light shadow-sm rounded-2xl overflow-hidden">
+            <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm font-body text-on-surface">
+              <thead className="bg-surface-container-low text-on-surface-variant font-subhead uppercase text-xs border-b border-border-light">
+                <tr>
+                  <th className="px-6 py-4">User Email</th>
+                  <th className="px-6 py-4 text-right">จำนวนคนไข้</th>
+                  <th className="px-6 py-4 text-right">จำนวนเหตุการณ์</th>
+                  <th className="px-6 py-4 text-right">จำนวนไฟล์แนบ</th>
+                  <th className="px-6 py-4 text-right">พื้นที่ Storage (MB)</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border-light">
+                {usageStats.map(stat => (
+                  <tr key={stat.user_id} className="hover:bg-surface-bright transition-colors">
+                    <td className="px-6 py-4 font-bold">{stat.email || 'ไม่มีอีเมล'}</td>
+                    <td className="px-6 py-4 text-right">{stat.total_patients || 0}</td>
+                    <td className="px-6 py-4 text-right">{stat.total_events || 0}</td>
+                    <td className="px-6 py-4 text-right">{stat.total_attachments || 0}</td>
+                    <td className="px-6 py-4 text-right font-code text-primary">{((stat.total_storage_bytes || 0) / (1024 * 1024)).toFixed(2)} MB</td>
+                  </tr>
+                ))}
+                {usageStats.length === 0 && !usageError && (
+                  <tr>
+                    <td colSpan="5" className="px-6 py-8 text-center text-text-muted">ไม่พบข้อมูลการใช้งาน</td>
+                  </tr>
+                )}
+                {usageError && (
+                  <tr>
+                    <td colSpan="5" className="px-6 py-8 text-center text-error">
+                      เกิดข้อผิดพลาดในการดึงข้อมูล: {usageError}
+                      <br/>
+                      <span className="text-xs text-text-muted">ตรวจสอบว่าได้รันคำสั่ง SQL ใน Supabase แล้วหรือยัง</span>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        </div>
+      )}
     </div>
   );
 }

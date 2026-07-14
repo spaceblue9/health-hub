@@ -53,6 +53,7 @@ CREATE TABLE attachments (
     file_name TEXT,
     file_url TEXT NOT NULL,
     file_type TEXT,
+    file_size_bytes BIGINT DEFAULT 0,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()),
     CONSTRAINT check_attachment_owner CHECK (
         (event_id IS NOT NULL AND patient_id IS NULL) OR 

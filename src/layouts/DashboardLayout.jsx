@@ -102,7 +102,7 @@ export default function DashboardLayout({ session }) {
   }
 
   return (
-    <div className="bg-background text-on-background font-body text-body antialiased flex h-screen overflow-hidden">
+    <div className="bg-background text-on-background font-body text-body antialiased flex h-screen print:h-auto overflow-hidden print:overflow-visible print:block">
       
       {/* SideNavBar (Desktop) */}
       <nav className={`bg-surface border-r border-border-light shadow-md flex-col h-full w-64 flex-shrink-0 relative z-40 ${mobileMenuOpen ? 'flex absolute inset-y-0 left-0' : 'hidden md:flex'}`}>
@@ -211,7 +211,7 @@ export default function DashboardLayout({ session }) {
         </header>
 
         {/* Page Content (Canvas Area) */}
-        <main className="flex-1 overflow-y-auto bg-background">
+        <main className="flex-1 overflow-y-auto print:overflow-visible bg-background print:block">
           <Outlet context={{ profile }} />
         </main>
       </div>
