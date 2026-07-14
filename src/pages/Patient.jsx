@@ -761,9 +761,14 @@ export default function Patient({ session }) {
                     </button>
                   ))}
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-text-muted whitespace-nowrap">ไอคอนอื่นๆ:</span>
-                  <input type="text" value={icon} onChange={e => setIcon(e.target.value)} placeholder="ชื่อ Material Symbol" className="flex-1 rounded-xl border-border-medium bg-background px-3 py-1.5 shadow-sm text-sm focus:border-brand-fuchsia focus:ring-1 focus:ring-brand-fuchsia" />
+                <div className="flex flex-col gap-1 w-full">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-text-muted whitespace-nowrap">ไอคอนอื่นๆ:</span>
+                    <input type="text" value={icon} onChange={e => setIcon(e.target.value)} placeholder="เช่น favorite, home, directions_car" className="flex-1 rounded-xl border-border-medium bg-background px-3 py-1.5 shadow-sm text-sm focus:border-brand-fuchsia focus:ring-1 focus:ring-brand-fuchsia" />
+                  </div>
+                  <a href="https://fonts.google.com/icons?icon.set=Material+Symbols" target="_blank" rel="noreferrer" className="text-[11px] text-brand-fuchsia hover:underline text-right flex justify-end items-center gap-1">
+                    ค้นหาชื่อไอคอนเพิ่มเติมได้ที่ Google Material Symbols <span className="material-symbols-outlined text-[11px]">open_in_new</span>
+                  </a>
                 </div>
               </div>
             </div>
