@@ -1,15 +1,19 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import { supabase } from './lib/supabase';
-import Login from './pages/Login';
-import Admin from './pages/Admin';
-import Dashboard from './pages/Dashboard';
-import Patient from './pages/Patient';
-import Share from './pages/Share';
-import SharingManagement from './pages/SharingManagement';
-import JoinCaregiver from './pages/JoinCaregiver';
-import DashboardLayout from './layouts/DashboardLayout';
+import ErrorBoundary from './components/ErrorBoundary';
+import PageLoader from './components/PageLoader';
 import { FontSizeProvider } from './contexts/FontSizeContext';
+
+// Lazy-loaded pages (loaded on-demand for better initial performance)
+const Login = lazy(() => import('./pages/Login'));
+const Admin = lazy(() => import('./pages/Admin'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Patient = lazy(() => import('./pages/Patient'));
+const Share = lazy(() => import('./pages/Share'));
+const SharingManagement = lazy(() => import('./pages/SharingManagement'));
+const JoinCaregiver = lazy(() => import('./pages/JoinCaregiver'));
+const DashboardLayout = lazy(() => import('./layouts/DashboardLayout'));
 
 function App() {
   const [session, setSession] = useState(null);
@@ -35,27 +39,31 @@ function App() {
   }
 
   return (
-    <FontSizeProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/login" element={<Login session={session} />} />
-          
-          {/* Public Routes */}
-          <Route path="/share/:token" element={<Share />} />
-          <Route path="/join/:token" element={<JoinCaregiver session={session} />} />
+    <ErrorBoundary>
+      <FontSizeProvider>
+        <BrowserRouter>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/login" element={<Login session={session} />} />
+              
+              {/* Public Routes */}
+              <Route path="/share/:token" element={<Share />} />
+              <Route path="/join/:token" element={<JoinCaregiver session={session} />} />
 
-          {/* Protected Routes wrapped in DashboardLayout */}
-          <Route element={session ? <DashboardLayout session={session} /> : <Navigate to="/login" />}>
-            <Route path="/" element={<Dashboard session={session} />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/patient/:id" element={<Patient session={session} />} />
-            <Route path="/sharing" element={<SharingManagement session={session} />} />
-          </Route>
-          
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
-      </BrowserRouter>
-    </FontSizeProvider>
+              {/* Protected Routes wrapped in DashboardLayout */}
+              <Route element={session ? <DashboardLayout session={session} /> : <Navigate to="/login" />}>
+                <Route path="/" element={<Dashboard session={session} />} />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/patient/:id" element={<Patient session={session} />} />
+                <Route path="/sharing" element={<SharingManagement session={session} />} />
+              </Route>
+              
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+          </Suspense>
+        </BrowserRouter>
+      </FontSizeProvider>
+    </ErrorBoundary>
   );
 }
 
