@@ -32,9 +32,7 @@ export default function Patient({ session }) {
   const [shareLink, setShareLink] = useState('');
 
   // Edit Form State
-  const [editData, setEditData] = useState({
-    name: '', dob: '', weight: '', height: '', blood_pressure: '', allergies: '', underlying_conditions: '', notes: ''
-  });
+  const [editData, setEditData] = useState({ name: '', dob: '', weight: '', height: '', blood_pressure: '', allergies: '', underlying_conditions: '', notes: '', hn: '', oxygen_level: '', temperature: '' });
   const [editProfilePicture, setEditProfilePicture] = useState(null);
   const [updatingProfile, setUpdatingProfile] = useState(false);
 
@@ -60,8 +58,10 @@ export default function Patient({ session }) {
   
   // Patient Profile Attachments
   const [selectedImageModal, setSelectedImageModal] = useState(null);
+  const [selectedMemo, setSelectedMemo] = useState(null);
   const [uploadingPatientFile, setUploadingPatientFile] = useState(false);
   const [patientFile, setPatientFile] = useState(null);
+  const [patientFileDescription, setPatientFileDescription] = useState('');
 
   useEffect(() => {
     fetchData();
@@ -90,7 +90,10 @@ export default function Patient({ session }) {
         blood_pressure: patientData.blood_pressure || '',
         allergies: patientData.allergies || '',
         underlying_conditions: patientData.underlying_conditions || '',
-        notes: patientData.notes || ''
+        notes: patientData.notes || '',
+        hn: patientData.hn || '',
+        oxygen_level: patientData.oxygen_level || '',
+        temperature: patientData.temperature || ''
       });
 
       const { data: eventsData } = await supabase
@@ -117,32 +120,48 @@ export default function Patient({ session }) {
 
   const handleUploadPatientAttachment = async (e) => {
     e.preventDefault();
-    if (!patientFile) return;
+    if (!patientFile && !patientFileDescription.trim()) return;
     setUploadingPatientFile(true);
     try {
-      const fileExt = patientFile.name.split('.').pop();
-      const filePath = `${session.user.id}/patient_${id}_${Date.now()}.${fileExt}`;
+      let publicUrl = '';
+      let fileName = 'บันทึกข้อความ (Memo)';
+      let fileType = 'text/plain';
+      let fileSize = 0;
 
-      const { error: uploadError } = await supabase.storage
-        .from('medical_attachments')
-        .upload(filePath, patientFile);
+      if (patientFile) {
+        const fileExt = patientFile.name.split('.').pop();
+        const filePath = `${session.user.id}/patient_${id}_${Date.now()}.${fileExt}`;
 
-      if (uploadError) throw uploadError;
+        const { error: uploadError } = await supabase.storage
+          .from('medical_attachments')
+          .upload(filePath, patientFile);
 
-      const { data: publicUrlData } = supabase.storage
-        .from('medical_attachments')
-        .getPublicUrl(filePath);
+        if (uploadError) throw uploadError;
+
+        const { data: publicUrlData } = supabase.storage
+          .from('medical_attachments')
+          .getPublicUrl(filePath);
+
+        publicUrl = publicUrlData.publicUrl;
+        fileName = patientFile.name;
+        fileType = patientFile.type;
+        fileSize = patientFile.size;
+      }
 
       const { error: attachError } = await supabase.from('attachments').insert([{
         patient_id: id,
-        file_name: patientFile.name,
-        file_url: publicUrlData.publicUrl,
-        file_type: patientFile.type,
-        file_size_bytes: patientFile.size
+        file_name: fileName,
+        file_url: publicUrl,
+        file_type: fileType,
+        file_size_bytes: fileSize,
+        description: patientFileDescription
       }]);
       if (attachError) throw attachError;
       
       setPatientFile(null);
+      setPatientFileDescription('');
+      const fileInput = document.getElementById('common-doc-upload');
+      if(fileInput) fileInput.value = '';
       await fetchData();
     } catch (error) {
       alert('Error uploading document: ' + error.message);
@@ -344,6 +363,9 @@ export default function Patient({ session }) {
           allergies: editData.allergies,
           underlying_conditions: editData.underlying_conditions,
           notes: editData.notes,
+          hn: editData.hn,
+          oxygen_level: editData.oxygen_level,
+          temperature: editData.temperature ? parseFloat(editData.temperature) : null,
           profile_picture_url: profile_picture_url,
           measurement_date: new Date().toISOString()
         })
@@ -521,6 +543,9 @@ export default function Patient({ session }) {
                   <span><strong className="text-on-background">น้ำหนัก:</strong> {patient.weight || '-'} กก.</span>
                   <span><strong className="text-on-background">ส่วนสูง:</strong> {patient.height || '-'} ซม.</span>
                   <span><strong className="text-on-background">ความดัน:</strong> {patient.blood_pressure || '-'}</span>
+                  <span><strong className="text-on-background">SpO2:</strong> {patient.oxygen_level || '-'}</span>
+                  <span><strong className="text-on-background">อุณหภูมิ:</strong> {patient.temperature ? `${patient.temperature}°C` : '-'}</span>
+                  {patient.hn && <span><strong className="text-on-background">HN:</strong> {patient.hn}</span>}
                 </div>
                 {(patient.allergies || patient.underlying_conditions || patient.notes) && (
                   <div className="flex flex-col gap-1 mt-2 text-sm text-on-surface-variant font-body border-t border-border-light pt-2">
@@ -615,8 +640,20 @@ export default function Patient({ session }) {
               <label className="font-caption text-caption text-on-surface block mb-1">โรคประจำตัว (ระบุถ้ามี)</label>
               <input type="text" value={editData.underlying_conditions} onChange={e => setEditData({...editData, underlying_conditions: e.target.value})} className="w-full rounded-xl border-border-medium bg-background px-3 py-2 shadow-sm focus:border-brand-fuchsia focus:ring-1 focus:ring-brand-fuchsia" />
             </div>
+            <div>
+              <label className="font-caption text-caption text-on-surface block mb-1">รหัสประจำตัว (HN)</label>
+              <input type="text" value={editData.hn} onChange={e => setEditData({...editData, hn: e.target.value})} className="w-full rounded-xl border-border-medium bg-background px-3 py-2 shadow-sm focus:border-brand-fuchsia focus:ring-1 focus:ring-brand-fuchsia" placeholder="เช่น HN46170607" />
+            </div>
+            <div>
+              <label className="font-caption text-caption text-on-surface block mb-1">ค่าออกซิเจน (SpO2)</label>
+              <input type="text" value={editData.oxygen_level} onChange={e => setEditData({...editData, oxygen_level: e.target.value})} className="w-full rounded-xl border-border-medium bg-background px-3 py-2 shadow-sm focus:border-brand-fuchsia focus:ring-1 focus:ring-brand-fuchsia" placeholder="เช่น 98%" />
+            </div>
+            <div>
+              <label className="font-caption text-caption text-on-surface block mb-1">อุณหภูมิ (°C)</label>
+              <input type="number" step="0.1" value={editData.temperature} onChange={e => setEditData({...editData, temperature: e.target.value})} className="w-full rounded-xl border-border-medium bg-background px-3 py-2 shadow-sm focus:border-brand-fuchsia focus:ring-1 focus:ring-brand-fuchsia" placeholder="เช่น 36.5" />
+            </div>
             <div className="sm:col-span-2">
-              <label className="font-caption text-caption text-on-surface block mb-1">หมายเหตุ (HN, AN, ประวัติสำคัญ ฯลฯ)</label>
+              <label className="font-caption text-caption text-on-surface block mb-1">หมายเหตุ (ประวัติสำคัญ ฯลฯ)</label>
               <textarea rows="3" value={editData.notes} onChange={e => setEditData({...editData, notes: e.target.value})} className="w-full rounded-xl border-border-medium bg-background px-3 py-2 shadow-sm focus:border-brand-fuchsia focus:ring-1 focus:ring-brand-fuchsia"></textarea>
             </div>
           </div>
@@ -799,15 +836,24 @@ export default function Patient({ session }) {
 
       {/* Patient Attachments Section (Common Documents) */}
       <div className="bg-surface rounded-2xl md:rounded-[24px] border border-border-light p-3 md:p-xl shadow-sm mt-lg w-full no-print overflow-hidden">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-md mb-md">
+        <div className="flex flex-col gap-md mb-md">
           <h3 className="text-lg font-subhead font-bold text-on-background flex items-center gap-xs">
-            <span className="material-symbols-outlined text-primary">folder_open</span> เอกสารประจำตัว (Common Documents)
+            <span className="material-symbols-outlined text-primary">folder_open</span> เอกสารและบันทึกส่วนตัว (Common Documents)
           </h3>
-          <form onSubmit={handleUploadPatientAttachment} className="flex gap-2 w-full sm:w-auto">
-            <input type="file" required onChange={e => setPatientFile(e.target.files[0])} className="w-full sm:w-auto text-xs text-text-muted file:mr-2 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:font-semibold file:bg-primary-container file:text-primary hover:file:bg-primary hover:file:text-white transition-colors" />
-            <button type="submit" disabled={uploadingPatientFile || !patientFile} className="rounded-full bg-brand-fuchsia px-4 py-1.5 text-xs font-bold text-on-primary shadow-sm hover:bg-primary transition-colors disabled:opacity-50 shrink-0">
-              {uploadingPatientFile ? 'กำลังอัปโหลด...' : 'อัปโหลด'}
-            </button>
+          <form onSubmit={handleUploadPatientAttachment} className="flex flex-col gap-3 w-full bg-surface-container-lowest p-4 rounded-xl border border-border-light shadow-sm">
+            <textarea 
+              placeholder="บันทึกข้อความส่วนตัว หรือคำอธิบายเอกสารเพิ่มเติม (ไม่บังคับ)" 
+              value={patientFileDescription} 
+              onChange={e => setPatientFileDescription(e.target.value)} 
+              rows="3"
+              className="w-full rounded-xl border border-border-medium bg-background px-4 py-3 text-sm shadow-sm focus:border-brand-fuchsia focus:ring-1 focus:ring-brand-fuchsia outline-none resize-y" 
+            />
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+              <input id="common-doc-upload" type="file" onChange={e => setPatientFile(e.target.files[0])} className="w-full sm:w-auto text-xs text-text-muted file:mr-2 file:py-1.5 file:px-3 file:rounded-full file:border-0 file:font-semibold file:bg-primary-container file:text-primary hover:file:bg-primary hover:file:text-white transition-colors cursor-pointer" />
+              <button type="submit" disabled={uploadingPatientFile || (!patientFile && !patientFileDescription.trim())} className="w-full sm:w-auto rounded-full bg-brand-fuchsia px-6 py-2 text-sm font-bold text-on-primary shadow-sm hover:bg-primary transition-colors disabled:opacity-50 shrink-0">
+                {uploadingPatientFile ? 'กำลังบันทึก...' : 'อัปโหลด และบันทึก'}
+              </button>
+            </div>
           </form>
         </div>
         
@@ -816,15 +862,31 @@ export default function Patient({ session }) {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-md">
             {patientAttachments.map(file => (
-              <div key={file.id} className="flex items-center justify-between p-3 border border-border-light rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-colors shadow-sm">
-                <a href={file.file_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 flex-1 min-w-0 hover:text-brand-fuchsia group">
-                  <span className="material-symbols-outlined text-text-muted group-hover:text-brand-fuchsia text-[20px]">
-                    {file.file_type?.startsWith('image/') ? 'image' : 'description'}
+              <div key={file.id} className="flex items-start justify-between p-3 border border-border-light rounded-xl bg-surface-container-low hover:bg-surface-container-high transition-colors shadow-sm gap-2">
+                <div 
+                  className={`flex items-start gap-3 flex-1 min-w-0 ${file.file_url === '' || file.description ? 'cursor-pointer group' : ''}`}
+                  onClick={() => {
+                    if (file.file_url === '' || file.description) setSelectedMemo(file);
+                  }}
+                >
+                  <span className={`material-symbols-outlined text-text-muted text-[24px] mt-0.5 shrink-0 ${file.file_url === '' || file.description ? 'group-hover:text-brand-fuchsia transition-colors' : ''}`}>
+                    {file.file_url === '' ? 'sticky_note_2' : (file.file_type?.startsWith('image/') ? 'image' : 'description')}
                   </span>
-                  <span className="text-sm font-medium truncate">{file.file_name || 'เอกสาร'}</span>
-                </a>
-                <button onClick={() => handleDeleteAttachment(file.id, file.file_url)} className="text-text-muted hover:text-error transition-colors p-1 shrink-0 ml-2" title="ลบ">
-                  <span className="material-symbols-outlined text-[18px]">delete</span>
+                  <div className="flex flex-col min-w-0 flex-1">
+                    {file.file_url === '' ? (
+                      <span className="text-sm font-bold text-on-surface truncate group-hover:text-brand-fuchsia transition-colors">{file.file_name || 'บันทึกข้อความ'}</span>
+                    ) : (
+                      <a href={file.file_url} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()} className="text-sm font-bold truncate text-on-surface hover:text-brand-fuchsia transition-colors">
+                        {file.file_name || 'เอกสาร'}
+                      </a>
+                    )}
+                    {file.description && (
+                      <span className="text-xs text-text-muted mt-1 break-words line-clamp-2">{file.description}</span>
+                    )}
+                  </div>
+                </div>
+                <button onClick={() => handleDeleteAttachment(file.id, file.file_url)} className="text-text-muted hover:text-error transition-colors p-1 shrink-0" title="ลบ">
+                  <span className="material-symbols-outlined text-[20px]">delete</span>
                 </button>
               </div>
             ))}
@@ -1155,7 +1217,36 @@ export default function Patient({ session }) {
         </div>
       )}
 
-
+      {/* Memo Modal */}
+      {selectedMemo && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm" onClick={() => setSelectedMemo(null)}>
+          <div className="bg-surface w-[90vw] max-w-[500px] rounded-3xl shadow-xl border border-border-light overflow-hidden flex flex-col max-h-[90vh]" onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-center p-md border-b border-border-light bg-surface-container-lowest">
+              <h3 className="font-subhead text-lg font-bold text-on-background flex items-center gap-2">
+                <span className="material-symbols-outlined text-primary">{selectedMemo.file_url === '' ? 'sticky_note_2' : 'description'}</span>
+                {selectedMemo.file_name || 'บันทึกข้อความ'}
+              </h3>
+              <button onClick={() => setSelectedMemo(null)} className="text-text-muted hover:bg-surface-container p-2 rounded-full transition-colors flex items-center justify-center">
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+            
+            <div className="p-xl overflow-y-auto">
+              <div className="bg-surface-container-low p-md rounded-2xl border border-border-light whitespace-pre-wrap text-body text-on-surface">
+                {selectedMemo.description || 'ไม่มีรายละเอียด'}
+              </div>
+            </div>
+            
+            {selectedMemo.file_url !== '' && (
+              <div className="p-md border-t border-border-light bg-surface-container-lowest flex justify-end">
+                <a href={selectedMemo.file_url} target="_blank" rel="noopener noreferrer" className="rounded-full bg-primary px-6 py-2 text-sm font-bold text-white shadow-sm hover:bg-[#7c008e] transition-colors flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[18px]">open_in_new</span> เปิดไฟล์แนบ
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Image Modal */}
       {selectedImageModal && (

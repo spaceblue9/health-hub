@@ -66,17 +66,19 @@ export default function Admin() {
       let successCount = 0;
       for (let i = 0; i < attachments.length; i++) {
         const att = attachments[i];
-        try {
-          const response = await fetch(att.file_url, { method: 'HEAD' });
-          if (response.ok) {
-            const size = parseInt(response.headers.get('content-length') || '0', 10);
-            if (size > 0) {
-              await supabase.rpc('admin_update_attachment_size', { attachment_id: att.id, new_size: size });
-              successCount++;
+        if (att.file_url) {
+          try {
+            const response = await fetch(att.file_url, { method: 'HEAD' });
+            if (response.ok) {
+              const size = parseInt(response.headers.get('content-length') || '0', 10);
+              if (size > 0) {
+                await supabase.rpc('admin_update_attachment_size', { attachment_id: att.id, new_size: size });
+                successCount++;
+              }
             }
+          } catch (err) {
+            console.error(`Failed to get size for ${att.id}:`, err);
           }
-        } catch (err) {
-          console.error(`Failed to get size for ${att.id}:`, err);
         }
         setSyncProgress({ current: i + 1, total: attachments.length });
       }

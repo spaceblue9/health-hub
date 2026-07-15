@@ -106,11 +106,12 @@ export default function Share() {
               <div>
                 <h1 className="font-headline text-headline font-bold text-on-background">{patient.name}</h1>
                 <p className="font-body-lg text-text-muted mt-1">ประวัติสุขภาพ (ข้อมูลแบบอ่านอย่างเดียว)</p>
-                {(patient.allergies || patient.underlying_conditions || patient.notes) && (
+                {(patient.allergies || patient.underlying_conditions || patient.notes || patient.hn) && (
                   <div className="mt-3 flex flex-col gap-1 text-sm font-body">
                     {patient.allergies && <span className="text-error"><strong className="text-on-surface-variant">แพ้ยา/อาหาร:</strong> {patient.allergies}</span>}
                     {patient.underlying_conditions && <span className="text-warning"><strong className="text-on-surface-variant">โรคประจำตัว:</strong> {patient.underlying_conditions}</span>}
                     {patient.notes && <span><strong className="text-primary">หมายเหตุ:</strong> <span className="whitespace-pre-wrap">{patient.notes}</span></span>}
+                    {patient.hn && <span><strong className="text-primary">HN:</strong> {patient.hn}</span>}
                   </div>
                 )}
               </div>
@@ -130,6 +131,14 @@ export default function Share() {
                 <div>
                   <div className="font-caption text-caption text-text-muted mb-xs">ความดัน</div>
                   <div className="font-bold text-on-background">{patient.blood_pressure || '-'}</div>
+                </div>
+                <div>
+                  <div className="font-caption text-caption text-text-muted mb-xs">SpO2</div>
+                  <div className="font-bold text-on-background">{patient.oxygen_level || '-'}</div>
+                </div>
+                <div>
+                  <div className="font-caption text-caption text-text-muted mb-xs">อุณหภูมิ</div>
+                  <div className="font-bold text-on-background">{patient.temperature ? `${patient.temperature}°C` : '-'}</div>
                 </div>
               </div>
             </div>

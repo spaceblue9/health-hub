@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useFontSize } from '../contexts/FontSizeContext';
+import { version } from '../../package.json';
 
 export default function DashboardLayout({ session }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -179,8 +180,9 @@ export default function DashboardLayout({ session }) {
             <span className="material-symbols-outlined">logout</span>
             Logout
           </button>
-          <div className="text-center text-[10px] text-text-muted/60 mt-1 pb-1">
-            Developed by penthammachat
+          <div className="text-center text-[10px] text-text-muted/60 mt-1 pb-1 flex flex-col gap-0.5">
+            <span>Developed by penthammachat</span>
+            <span>Version {version}</span>
           </div>
         </div>
       </nav>

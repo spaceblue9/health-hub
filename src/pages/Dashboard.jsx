@@ -15,6 +15,9 @@ export default function Dashboard({ session }) {
   const [name, setName] = useState('');
   const [dob, setDob] = useState('');
   const [notes, setNotes] = useState('');
+  const [hn, setHn] = useState('');
+  const [oxygenLevel, setOxygenLevel] = useState('');
+  const [temperature, setTemperature] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
   const [uploading, setUploading] = useState(false);
 
@@ -88,6 +91,9 @@ export default function Dashboard({ session }) {
         name, 
         dob: dob || null,
         notes,
+        hn,
+        oxygen_level: oxygenLevel,
+        temperature: temperature ? parseFloat(temperature) : null,
         profile_picture_url
       }]).select();
       
@@ -98,6 +104,9 @@ export default function Dashboard({ session }) {
       setName('');
       setDob('');
       setNotes('');
+      setHn('');
+      setOxygenLevel('');
+      setTemperature('');
       setProfilePicture(null);
     } catch (error) {
       alert('Error creating profile: ' + error.message);
@@ -179,8 +188,20 @@ export default function Dashboard({ session }) {
                 className="w-full"
               />
             </div>
+            <div>
+              <label className="font-caption text-caption text-on-surface block mb-1">รหัสประจำตัว (HN)</label>
+              <input type="text" value={hn} onChange={e => setHn(e.target.value)} className="w-full rounded-xl border-border-medium bg-background px-3 py-2 shadow-sm focus:border-brand-fuchsia focus:ring-1 focus:ring-brand-fuchsia" placeholder="เช่น HN46170607" />
+            </div>
+            <div>
+              <label className="font-caption text-caption text-on-surface block mb-1">ค่าออกซิเจน (SpO2)</label>
+              <input type="text" value={oxygenLevel} onChange={e => setOxygenLevel(e.target.value)} className="w-full rounded-xl border-border-medium bg-background px-3 py-2 shadow-sm focus:border-brand-fuchsia focus:ring-1 focus:ring-brand-fuchsia" placeholder="เช่น 98%" />
+            </div>
+            <div>
+              <label className="font-caption text-caption text-on-surface block mb-1">อุณหภูมิ (°C)</label>
+              <input type="number" step="0.1" value={temperature} onChange={e => setTemperature(e.target.value)} className="w-full rounded-xl border-border-medium bg-background px-3 py-2 shadow-sm focus:border-brand-fuchsia focus:ring-1 focus:ring-brand-fuchsia" placeholder="เช่น 36.5" />
+            </div>
             <div className="sm:col-span-2">
-              <label className="font-caption text-caption text-on-surface block mb-1">หมายเหตุ (HN, AN, ประวัติสำคัญ ฯลฯ)</label>
+              <label className="font-caption text-caption text-on-surface block mb-1">หมายเหตุ (ประวัติสำคัญ ฯลฯ)</label>
               <textarea rows="3" value={notes} onChange={e => setNotes(e.target.value)} className="w-full rounded-xl border-border-medium bg-background px-3 py-2 shadow-sm focus:border-brand-fuchsia focus:ring-1 focus:ring-brand-fuchsia"></textarea>
             </div>
           </div>

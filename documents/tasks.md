@@ -49,3 +49,24 @@
   - [x] Create RPC `get_admin_usage_stats` to count items and calculate storage usage per user.
   - [x] Update `Patient.jsx` to store file sizes on upload.
   - [x] Add Usage Dashboard tab to `Admin.jsx`.
+
+### T-007 Fix Caregiver Display Bug
+- Status: `[x]` Done
+- Detail:
+  - [x] Create SQL script `database/fix_patient_access_profiles.sql` to fix foreign key relationship between `patient_access` and `profiles`.
+  - [x] Update RLS policy on `profiles` table so patient owners can view co-caregiver emails.
+
+### T-008 Add Description to Common Documents
+- Status: `[x]` Done
+- Detail:
+  - [x] Create SQL migration script `database/add_attachment_description.sql` to add `description` column to `attachments` table.
+  - [x] Update `Patient.jsx` upload logic to send description.
+  - [x] Adjust layout to support empty file (Memo) functionality and expand modals.
+
+### T-009 Add Vitals and HN to Patient Profile
+- Status: `[x]` Done
+- Detail:
+  - [x] Create SQL script `database/add_patient_vitals.sql` to add `hn`, `oxygen_level`, and `temperature`.
+  - [x] Update Dashboard.jsx to include fields in new patient form.
+  - [x] Update Patient.jsx for displaying and editing new fields.
+  - [x] Update Share.jsx to display new fields.
